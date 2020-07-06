@@ -28,7 +28,7 @@ SECRET_KEY = '0cy4x3ch#9+d!b^7!thche_08(e8qi#m%tu!$0#5pw*ntn0em$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['wh494670.ispot.cc','www.wh494670.ispot.cc']
+ALLOWED_HOSTS = ['wh494670.ispot.cc','www.wh494670.ispot.cc','127.0.0.1']
 
 
 # Application definition
@@ -108,6 +108,7 @@ DATABASES = {
         'USER':'iockustc_haseeb',
         'PASSWORD':'kust909090',
         'HOST':'localhost'
+        
 
     }
 }
