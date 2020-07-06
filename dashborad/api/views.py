@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from dashborad.models import Health, Patient
-from dashborad.api.serializer import HealthSerializer, PatientSerializer
+from dashborad.api.serializer import HealthFilterSerializer, PatientSerializer
 from dashborad.api.filters import HealthFilter
 
 @api_view(['GET'])
