@@ -11,6 +11,6 @@ urlpatterns= [
     path('health-create/', healthCreate, name='health-create'),
     path('health-update/<str:pk>/', healthUpdate, name='health-update'),
     # path('health-delete/<str:pk>/', healthDelete, name='health-Delete'),
-    path('patients/', patientsList, name='patients')
+    path('health-patients/', patientsList, name='patients')
 ]
 
