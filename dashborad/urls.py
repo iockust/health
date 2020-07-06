@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import MainPageView,ChartsData,ChartsPageView,ReportPageView
+from .views import MainPageView,ChartsData,ChartsPageView
 
 
 urlpatterns = [
