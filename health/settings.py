@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 ]
 
+
+# For Documentation
+REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -101,17 +105,17 @@ WSGI_APPLICATION = 'health.wsgi.application'
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'iockustc_health',
-        'USER':'iockustc_haseeb',
-        'PASSWORD':'kust909090',
-        'HOST':'localhost'
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'iockustc_health',
+#         'USER':'iockustc_haseeb',
+#         'PASSWORD':'kust909090',
+#         'HOST':'localhost'
         
 
-    }
-}
+#     }
+# }
 
 
 
