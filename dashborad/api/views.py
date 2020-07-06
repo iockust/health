@@ -14,7 +14,7 @@ def apiOverview(request):
         'Create': '/health-create',
         'Update': '/health-update/<str:pk>/',
         'Delete': '/health-delete/<str:pk>/',
-        'PatientsList': 'health-patients/'
+        'PatientsList': 'health-patients/',
         'Health-heartrate':'health-heartrate/'
     }
 
