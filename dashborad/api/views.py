@@ -126,7 +126,7 @@ def healthPatients(request):
 @api_view(['GET'])
 def  healthHeartRate(request):
     if request.method=='GET':
-        filter_data = BookFilter(request.GET, queryset=Book.objects.all())
+        filter_data = HealthFilter(request.GET, queryset=Book.objects.all())
         serializer=HealthFilterSerializer(filter_data,many=True)
         return response(serializer.data)
     # except Patient.date_error_message
