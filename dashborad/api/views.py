@@ -127,10 +127,10 @@ def healthPatients(request):
 @api_view(['GET'])
 def  healthHeartRate(request):
     if request.method=='GET':
-        startdate=request.data.get('startdate')
-        enddate=request.data.get('enddate)
-        # filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
-        filter_data=Health.objects.filter(date__range=[startdate, enddate])
+        # startdate=request.data.get('startdate')
+        # enddate=request.data.get('enddate)
+        filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
+        # filter_data=Health.objects.filter(date__range=[startdate, enddate])
         serializer=HealthFilterSerializer(filter_data,many=True)
         return Response(serializer.data)
     # except Patient.date_error_message
