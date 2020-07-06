@@ -22,8 +22,12 @@ schema_view=get_swagger_view(title="Health API Documentation")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',view.landingPage,name='landingPage'),
-    path('dashborad/', include('dashborad.urls')),
+    # path('',view.landingPage,name='landingPage'),
+    # path('dashborad/', include('dashborad.urls')),
+    
+    path('', include('dashborad.urls')),
+
+
         # REST FRAMEWORK URLS
     path('api/v1/',include('dashborad.api.urls')),
     path('api/v1/docs/',schema_view),
