@@ -19,7 +19,7 @@ class Health(models.Model):
 
 
 class Patient(models.Model):
-    id = models.BigIntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    id = models.ForeignKey(Health,null=True,on_delete=model.SET_NULL)
     name = models.CharField(db_column='Name', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
