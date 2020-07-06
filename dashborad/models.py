@@ -17,5 +17,12 @@ class Health(models.Model):
     calminute = models.TextField(db_column='CalMinute', blank=True, null=True)  # Field name made lowercase.
     calories = models.FloatField(db_column='Calories', blank=True, null=True)  # Field name made lowercase.
 
-    
+
+class Patient(models.Model):
+    id = models.BigIntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=255, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'patient'
 
