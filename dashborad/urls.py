@@ -11,7 +11,4 @@ urlpatterns = [
     # REST FRAMEWORK URLS
     path('api/',include('dashborad.api.urls')),
 
-    # Pandas Profling
-    path('report', ReportPageView.as_view(), name='report'),
-
 ]
