@@ -7,9 +7,6 @@ from django.http import JsonResponse
 from .models import Health
 from django.core import serializers
 
-from pandas_profiling import ProfileReport
-import pandas as pd
-import numpy as np
 class MainPageView(View):
     def get(self,request,*args,**kwargs):
 
@@ -52,10 +49,3 @@ class ChartsData(APIView):
 
 
 
-class ReportPageView(View):
-    def get(self,request,*args,**kwargs):
-        # dataset=pd.DataFrame.from_records(Health.objects.all().values())
-        # # dataset = Health.objects.all()
-        # prof = ProfileReport(dataset)
-        # prof.to_file(output_file='dashborad/report.html')
-        return render(request,'dashborad/report.html')
