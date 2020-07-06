@@ -122,11 +122,15 @@ def healthPatients(request):
         return Response(serializer.data)
 
 
-
+# if state_name is not None:
+                # queryset = queryset.filter(state__name=state_name)
 @api_view(['GET'])
 def  healthHeartRate(request):
     if request.method=='GET':
-        filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
+        startdate=request.data.get('startdate')
+        enddate=request.data.get('enddate)
+        # filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
+        filter_data=Health.objects.filter(date__range=[startdate, enddate])
         serializer=HealthFilterSerializer(filter_data,many=True)
         return Response(serializer.data)
     # except Patient.date_error_message
