@@ -128,5 +128,5 @@ def  healthHeartRate(request):
     if request.method=='GET':
         filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
         serializer=HealthFilterSerializer(filter_data,many=True)
-        return response(serializer.data)
+        return Response(serializer.data)
     # except Patient.date_error_message
