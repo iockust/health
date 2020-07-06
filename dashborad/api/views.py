@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 
 from dashborad.models import Health, Patient
 from dashborad.api.serializer import HealthSerializer, PatientSerializer
-
+from dashborad.api.filters import HealthFilter
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -15,6 +15,7 @@ def apiOverview(request):
         'Update': '/health-update/<str:pk>/',
         'Delete': '/health-delete/<str:pk>/',
         'PatientsList': 'health-patients/'
+        'Health-heartrate':'health-heartrate/'
     }
 
     return Response(api_urls)
@@ -120,24 +121,12 @@ def healthPatients(request):
         serializer = PatientSerializer(patients, many=True)
         return Response(serializer.data)
 
-        healthHeartRate
 
-# @api_view(['GET'])
-# def  healthHeartRate(request):
-#     if request.method == 'GET':
-#         Patient = Patient.objects.all()
-#         serializer = PuppySerializer(puppies, many=True)
-#         return Response(serializer.data)
-# # insert a new record for a puppy
-# if request.method == 'POST':
-# data = {
-#     'name': request.data.get('name'),
-#     'age': int(request.data.get('age')),
-#     'breed': request.data.get('breed'),
-#     'color': request.data.get('color')
-# }
-# serializer = PuppySerializer(data=data)
-# if serializer.is_valid():
-#     serializer.save()
-#     return Response(serializer.data, status=status.HTTP_201_CREATED)
-# return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def  healthHeartRate(request):
+    if request.method=='GET':
+        filter_data = BookFilter(request.GET, queryset=Book.objects.all())
+        serializer=HealthFilterSerializer(filter_data,many=True)
+        return response(serializer.data)
+    # except Patient.date_error_message

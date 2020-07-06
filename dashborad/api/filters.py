@@ -1,7 +1,8 @@
 from dashborad.models import Health, Patient
 import django_filters
 
-class UserFilter(django_filters.FilterSet):
+
+class HealthFilter(django_filters.FilterSet):
     class Meta:
-        model = Patient
-        fields = ['username', 'first_name', 'last_name', ]
+        model = Book
+        fields = ['time', 'value']
