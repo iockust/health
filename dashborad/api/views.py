@@ -22,17 +22,17 @@ def apiOverview(request):
 
 
 @api_view(['GET'])
-def healthList(request,pk):
+def healthList(request, pk):
     try:
         # health=Health.objects.get(slug=slug)
-        # health = Health.objects.raw('select `Id` as id, `Time`,`Value`,`IntensityTime`,`Intensity`,`StepsMinute`,`Steps`,`SleepMinute`,`SleepValue`,`SleepLogId`,`MetMinute`,`METs`,`CalMinute`,`Calories` from `dashborad_health` where id=2026352035 limit 4')
+
         health=Health.objects.filter(id=pk).filter(time__year=2016)[:3]   
     
     except Health.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method=="GET":
-        serializer=HealthSerializer(health,many=True)
+    if request.method == "GET":
+        serializer = HealthSerializer(health,many=True)
         return Response(serializer.data)
 
 
