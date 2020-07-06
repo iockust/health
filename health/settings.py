@@ -28,7 +28,7 @@ SECRET_KEY = '0cy4x3ch#9+d!b^7!thche_08(e8qi#m%tu!$0#5pw*ntn0em$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['wh494670.ispot.cc','www.wh494670.ispot.cc','*']
+ALLOWED_HOSTS = ['wh494670.ispot.cc','www.wh494670.ispot.cc']
 
 
 # Application definition
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'dashborad.apps.DashboradConfig',
-    'django_extensions'
+    'django_extensions',
+    'django_filters',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -87,28 +89,28 @@ WSGI_APPLICATION = 'health.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'fitbit',
-        'USER':'root',
-        'PASSWORD':'9090',
-        'HOST':'localhost'
-
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'iockustc_health',
-#         'USER':'iockustc_haseeb',
-#         'PASSWORD':'kust909090',
+#         'NAME': 'health',
+#         'USER':'root',
+#         'PASSWORD':'9090',
 #         'HOST':'localhost'
 
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'iockustc_health',
+        'USER':'iockustc_haseeb',
+        'PASSWORD':'kust909090',
+        'HOST':'localhost'
+
+    }
+}
 
 
 
@@ -181,7 +183,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = "/home/iockustc/health.iockust.com/dashborad/static/"
+STATIC_URL = "/home/iockustc/repositories/healthproject/dashborad/static/"
+
+
 
 # # Static asset configuration
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
