@@ -4,5 +4,5 @@ import django_filters
 
 class HealthFilter(django_filters.FilterSet):
     class Meta:
-        model = Book
+        model = Health
         fields = ['time', 'value']
