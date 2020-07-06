@@ -108,7 +108,7 @@ def healthCreate(request):
 
 # Jawad
 @api_view(['GET'])
-def patientsList(request):
+def healthPatients(request):
     try:
 
         patients = Patient.objects.all()
