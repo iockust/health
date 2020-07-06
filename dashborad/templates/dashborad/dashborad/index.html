@@ -1,0 +1,138 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>ChartJS HTML5 Dashboard</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <!-- <script src="js/plugins.js"></script> -->
+    <script src="js/vendor/Chart.bundle.min.js"></script>
+    <script src="js/vendor/Chart.min.js"></script>
+    <script src="js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="js/vendor/jquery-1.12.0.min.js"></script>
+        <script src="js/analyser.js"></script>
+    <script src="js/utils.js"></script>
+</head>
+
+<body>
+    <!-- ---------------------------------------------------------------------------------------- -->
+    <div class="wrapper">
+        <!--  -----------------HEADER-------------- -->
+        <header>
+            <div class="container clearfix">
+                <div class="navbar-header">
+                    <div class="landing-logo">
+                        <img src="img/E-icon.png">
+                    </div>
+                </div>
+                <div class="user-menu-con">
+                    <div class="dropdown btn-group btn-group-sm">
+                        <span class="glyphicon glyphicon glyphicon-search"></span>
+                        <span class="glyphicon glyphicon glyphicon-comment"></span>
+                        <span class="glyphicon glyphicon glyphicon-globe"></span>
+                        <span class="user-name text-thin"> Joe Cool</span>
+                        <span class="glyphicon glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--  ---------------------------------------- -->
+        <div class="container clearfix">
+            <p><a id="ajax" class="button">Dummy Data AJAX CALL</a></p>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------- -->
+        <!-- <div class="push"></div> -->
+        <!--  ---------------CHARTS------------------ -->
+        <div class="container clearfix">
+            <div class="third widget doughnut">
+                <h3>Breakdown: Type</h3>
+                <p><a id="addNewData" class="button">Add New Data</a></p>
+                <p><a id="removeNewData" class="button">Remove New Data</a></p>
+                <div class="canvas-container">
+                    <canvas id="hours"></canvas>
+                    <script src="js/main.js"></script>
+                </div>
+            </div>
+            <div class="third widget bar">
+                <div class="chart-legend">
+                    <h3>Contracts</h3>
+                    <p><span>Cost in Millions</span></p>
+                    <p><a id="addElement" class="button">Increase A-2 Value</a></p>
+                    <p><a id="removeElement" class="button">Decrease A-2 Value</a></p>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="contracts"></canvas>
+                </div>
+            </div>
+            <div class="third widget">
+                <div class="chart-legend">
+                    <h3>Expenditure Type</h3>
+                    <p><span>Legend Data</span></p>
+                    <p><a id="#" class="button">Refresh Data</a></p>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="expenditure"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------------------------------- -->
+        <!-- <div class="push"></div> -->
+        <!-- ---------------------------------------------------------------------------------------- -->
+        <div class="container clearfix">
+            <div class="third widget doughnut">
+                <h3>Goals</h3>
+                <p><span>Data</span></p>
+                <p><a href="" class="button">Data</a></p>
+                <div class="canvas-container">
+                    <canvas id="goals"></canvas>
+                </div>
+            </div>
+            <div class="third widget bar">
+                <h3>Cost</h3>
+                <p><span>Over 2017</span></p>
+                <p><a href="" class="button">Data</a></p>
+                <div class="canvas-container">
+                    <canvas id="cost"></canvas>
+                </div>
+            </div>
+            <div class="third widget doughnut">
+                <h3>Goals</h3>
+                <p><span>2016/2017</span></p>
+                <p><a href="" class="button">Data</a></p>
+                <div class="canvas-container">
+                    <canvas id="goalsC"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- END WRAPPER -->
+        <!-- ---------------------------------------------------------------------------------------- -->
+
+    </div>
+    <!-- <div class="push"></div> -->
+    <footer>
+        <div class="container">
+            ChartJS Demo - <a href="https://github.com/eban5">Esteban Amas</a> &copy;
+        <div style="float: right">Adapted from a tutorial by <a href="https://tutsplus.com/authors/jonathan-cutrell">Jonathan Cutrell</a></div>
+    </div>
+
+    </footer>
+
+    <!---------------------------------------------------------- -->
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="js/vendor/rangeslider.min.js"></script>
+
+    <script>
+    window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')
+
+    </script>
+</body>
+
+</html>

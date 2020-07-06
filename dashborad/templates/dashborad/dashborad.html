@@ -1,0 +1,534 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Health - Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+	<style>
+		canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+	</style>
+    
+
+    <!--Charts.js and Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js" integrity="sha256-o8aByMEvaNTcBsw94EfRLbBrJBI+c3mjna/j4LrfyJ8=" crossorigin="anonymous"></script>
+
+    <!--For Chart.js Convas-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+  
+
+</head>
+
+<body id="page-top">
+
+<!-- Line Chart -->
+<!-- 
+<div class="container">
+    <div class="row">
+        <div class="col-6 chart">
+            <canvas id="lineChartId" width="500px"; height="400px">
+                <script>
+                    // var endpoint='/dashborad/api/health-list/'
+                    var endpoint='http://127.0.0.1:8000/dashborad/api/health-list/'
+                    $.ajax({
+                        method:"GET",
+                        url:endpoint,
+                        success:function(data){
+                            console.log(data)
+                        },
+                        error:function(error_data){
+                            console.log("error")
+                            console.log(error_data)
+                        }
+
+                    })
+                         var ctx = document.getElementById("lineChartId").getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    data = [20000, 14000, 12000, 15000, 18000, 19000, 22000],
+                                    labels =  ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"],
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                }]
+                            },
+                            options: {            
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true,
+                                        }
+                                    }]                
+                                }
+                            },
+                        });
+                    </script>
+            </canvas>
+        </div> -->
+
+
+
+<!-- 
+<div class="container">
+    <div class="row">
+        <div class="col-6 chart">
+            <canvas id="doughnutId" width="500px"; height="400px">
+                <script>
+                    var endpoint='/dashborad/api/health-list/'
+                    $.ajax({
+                        method:"GET",
+                        url:endpoint,
+                        success:function(data){
+                            console.log(data)
+                        },
+                        error:function(error_data){
+                            console.log("error")
+                            console.log(error_data)
+                        }
+
+                    })
+                    var ctx = document.getElementById('doughnutId').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3, 5, 2, 3],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                    </script>
+            </canvas>
+        </div> -->
+
+        <div class="col-6 chart">
+            <canvas id="barId" width="500px"; height="400px" >
+                   <!-- <script>
+                   var endpoint='/dashborad/api/health-list/'
+                    $.ajax({
+                        method:"GET",
+                        url:endpoint,
+                        success:function(data){
+                            console.log(data)
+                            var ctx = document.getElementById('bartId').getContext('2d');
+                            var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Time', 'Value', 'Intensity Time', 'Intensity', 'Steps Minute', 'Steps','Sleep Minute','Sleep Value','Sleep log id','metminute','mets','calminute','calories'],
+                            datasets: [{
+                                label: 'Bar Chart',
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                            
+                        },
+                        error:function(error_data){
+                            console.log("error")
+                            console.log(error_data)
+                        }
+
+                    })
+                    
+                    </script> -->
+<!-- 
+                    <script>
+                    // used for example purposes
+                    function getRandomIntInclusive(min, max) {
+                    min = Math.ceil(min);
+                    max = Math.floor(max);
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                    }
+
+                // create initial empty chart
+                var ctx_live = document.getElementById("barId");
+                var myBarChart = new Chart(ctx_live, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                    data: [],
+                    borderWidth: 1,
+                    borderColor:'#00c0ef',
+                    label: 'liveCount',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                    display: true,
+                    text: "Chart.js - Dynamically Update Chart Via Ajax Requests",
+                    },
+                    legend: {
+                    display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            stacked: new Date()
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+                });
+
+                // this post id drives the example data
+                var healthId = 1;
+                // logic to get new data    
+                var getData = function() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/dashborad/api/health-detail/' + healthId ,
+                    success: function(data) {
+                    // process your data to pull out what you plan to use to update the chart
+                    // e.g. new label and a new data point
+                    
+                    // add new label and data point to chart's underlying data structures
+                    myBarChart.data.labels.push("intensity" + healthId++);
+                    myBarChart.data.datasets[0].data.push(getRandomIntInclusive(1, 25));
+                    
+                    // re-render the chart
+                    myBarChart.update();
+                    }
+                });
+                };
+
+                // get new data every 3 seconds
+                setInterval(getData, 3000);
+                </script>
+            </canvas>
+        </div> -->
+
+        <!-- <div class="col-6 chart">
+            <canvas id="radarId" width="500px"; height="400px">
+                <script>
+                    var ctx = document.getElementById('radarId').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3, 5, 2, 3],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                    </script>
+            </canvas>
+        </div> -->
+        <!-- <div class="col-6 chart">
+            <canvas id="pieId" width="500px"; height="400px" >
+                <script>
+                    var ctx = document.getElementById('pieId').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3, 5, 2, 3],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                    </script>
+            </canvas>
+        </div> -->
+
+        
+<table width="*"><tr><td width="257"><h2>Current</h2><h3>$8061.45</h3></td><td width="257"><h2>24-hr Change</h2><font color="green">1.1%</font></td><td width="257"><h2>Last Week</h2>$8596.45</td><td width="257"><h2>Last Month</h2>$10312.67</td><td width="257"><h2>Last Year</h2>$6514.64</td></tr><tr ><td colspan="5">
+    <br />
+        <canvas id="myChart" width="1285" height="400"></canvas>
+    <script>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var gradientStroke = ctx.createLinearGradient(0, 0, 2000, 0);
+    gradientStroke.addColorStop(0, "rgba(124, 77, 255, .3)");
+    gradientStroke.addColorStop(0.3, "rgba(68, 138, 255, .3)");
+    gradientStroke.addColorStop(0.6, "rgba(0, 188, 212, .5)");
+    gradientStroke.addColorStop(1, "rgba(29, 233, 182, .6)");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["09-15","09-16","09-17","09-18","09-19","09-20","09-21","09-22","09-23","09-24","09-25","09-26","09-27","09-28","09-29","09-30","10-01","10-02","10-03","10-04","10-05","10-06","10-07","10-08","10-09","10-10","10-11","10-12","10-13","10-14","10-15","10-16"],
+            datasets: [{
+                label: 'Price USD',
+                data: [10312.67,10271.01,10199.91,10165.33,10282.66,10179.95,9989.75,10036.71,9694.51,8538.1,8449.92,8075.97,8200.28,8221.38,8067.27,8316.88,8326.58,8395.22,8246.54,8161.35,8153.98,7868.34,8217.63,8191.07,8596.45,8590.37,8272.4,8311.81,8290.97,8362.07,8171.27,8002.85],
+                lineTension: 0,
+                lineTension: 0,
+                //borderDash: [2, 2],
+                //backgroundColor: [ 
+                //    'rgba(54, 162, 235, 0.2)'
+                    //gradientStroke
+                //],
+                //borderColor: [
+                    //gradientStroke
+                //    'rgba(54, 162, 235, 1)'
+                //],
+                borderColor:               gradientStroke,
+                pointBorderColor:          gradientStroke,
+                pointBackgroundColor:      gradientStroke,
+                pointHoverBackgroundColor: gradientStroke,
+                pointHoverBorderColor:     gradientStroke,
+                backgroundColor:           gradientStroke,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:false,
+                        callback: function(value, index, values) {
+                            return '$' + value;}
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 40,
+                        minRotation: 40
+                    }
+                }]
+            }
+        }
+    });
+    </script><br></td></tr>
+    
+    </table>
+
+
+        <div class="box">
+            <div class="container">
+                <canvas id="chartCanvas">
+                    <script>
+                        var ctx = document.getElementById('chartCanvas').getContext('2d');
+                  
+                        var chart = new Chart(ctx, {
+                              type: 'line',
+                              data: {
+                                
+                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                                  datasets: [{
+                                      label: 'Ocurrences for Gaussian Distribution',
+                                      data: [1,2,3,4,1,4,5,5,5,6,7,8,65,4],
+                                      backgroundColor: 'rgba(50, 115, 220, 0.4)',
+                                      borderColor: 'rgba(50, 115, 220, 0.4)',
+                                      borderWidth: 2,
+                                      fill: true,
+                                      pointBorderWidth: 1,
+                                      pointHoverRadius: 5,
+                                      pointHoverBackgroundColor: 'rgba(50, 115, 220, 0.4)',
+                                      pointHoverBorderColor: 'rgba(50, 115, 220, 0.4)',
+                                      pointHoverBorderWidth: 2,
+                                      pointRadius: 1,
+                                      pointHitRadius: 10
+                                  },
+                                  {
+                                      label: 'Ocurrences for Gumbel Distribution',
+                                      data: [1,2,3,4,2,4,5,5,5,6],
+                                      backgroundColor: 'rgba(0, 205, 175, 0.4)',
+                                      borderColor: 'rgba(0, 205, 175, 0.4)',
+                                      borderWidth: 2,
+                                      fill: true,
+                                      pointBorderWidth: 1,
+                                      pointHoverRadius: 5,
+                                      pointHoverBackgroundColor: 'rgba(0, 205, 175, 0.4)',
+                                      pointHoverBorderColor: 'rgba(0, 205, 175, 0.4)',
+                                      pointHoverBorderWidth: 2,
+                                      pointRadius: 1,
+                                      pointHitRadius: 10
+                                  },
+                                  {
+                                      label: 'Ocurrences for Weibull Distribution',
+                                      data: [1,2,3,4],
+                                      backgroundColor: 'rgba(255, 56, 96, 0.4)',
+                                      borderColor: 'rgba(255, 56, 96, 0.4)',
+                                      borderWidth: 2,
+                                      fill: true,
+                                      pointBorderWidth: 1,
+                                      pointHoverRadius: 5,
+                                      pointHoverBackgroundColor: 'rgba(255, 56, 96, 0.4)',
+                                      pointHoverBorderColor:'rgba(255, 56, 96, 0.4)',
+                                      pointHoverBorderWidth: 2,
+                                      pointRadius: 1,
+                                      pointHitRadius: 10
+                                  }
+                              ]
+                              },
+                              options: {
+                                  scales: {
+                                      yAxes: [{
+                                          ticks: {
+                                              beginAtZero: true
+                                          }
+                                      }]
+                                  }
+                              }
+                          });
+                    </script>
+
+
+                </canvas>
+                <br>
+            </div>
+    </div>
+
+
+</div>
+
+
+
+
+  <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    
+  
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  
+</body>
+
+</html>

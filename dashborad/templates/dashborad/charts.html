@@ -1,0 +1,53 @@
+{% extends 'dashborad/charts/charts_base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 chart">
+            <canvas id="doughnutId" width="500px"; height="400px">
+                <script>
+                    $(document).ready(function(){
+                    {% block doughnutJquery %}{% endblock doughnutJquery %}
+                    })
+
+                </script>
+            </canvas>
+        </div>
+        <div class="col-6 chart">
+            <canvas id="barId" width="500px"; height="400px" >
+                <script>
+                    $(document).ready(function(){
+                    {% block barJquery %}{% endblock barJquery  %}
+                    })
+                </script>
+            </canvas>
+        </div>
+
+        <div class="col-6 chart">
+            <canvas id="RonaldoId" width="500px"; height="400px">
+                <script>
+                    $(document).ready(function(){
+                    {% block RonaldoJquery %}{% endblock RonaldoJquery %}
+                    })
+                </script>
+            </canvas>
+        </div>
+        <div class="col-6 chart">
+            <canvas id="pieId" width="500px"; height="400px" >
+                <script>
+                    $(document).ready(function(){
+                    {% block pieJquery %}{% endblock pieJquery %}
+                    })
+                </script>
+            </canvas>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock content %}
+

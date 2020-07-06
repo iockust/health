@@ -1,0 +1,10 @@
+bokeh==2.0.2
+Django==2.2
+djangorestframework==3.11.0
+mysqlclient
+django-extensions
+dj-static
+static3
+pandas
+pandas-profiling
+numpy
