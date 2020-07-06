@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from dashborad.models import Health, Patient
-from dashborad.api.serializer import HealthSerializer
+from dashborad.api.serializer import HealthSerializer, PatientSerializer
 
 
 @api_view(['GET'])
@@ -95,7 +95,7 @@ def healthUpdate(request, pk):
 @api_view(['POST'])
 def healthCreate(request):
     if request.method == 'POST':
-        serializer = HealthSerializer(data=request.data)
+        serializer = PatientSerializer(data=request.data)
         data = {}
 
         if serializer.is_valid():
