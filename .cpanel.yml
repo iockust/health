@@ -2,3 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/iockustc/health.iockust.com/
+    - /bin/cp -R * $DEPLOYPATH
