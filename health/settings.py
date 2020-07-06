@@ -93,16 +93,16 @@ WSGI_APPLICATION = 'health.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'health',
-#         'USER':'root',
-#         'PASSWORD':'9090',
-#         'HOST':'localhost'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'health',
+        'USER':'root',
+        'PASSWORD':'',
+        'HOST':'localhost'
 
-#     }
-# }
+    }
+}
 
 
 # DATABASES = {

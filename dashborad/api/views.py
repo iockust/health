@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from dashborad.models import Health, Patient
-from dashborad.api.serializer import HealthFilterSerializer, PatientSerializer
+from dashborad.api.serializer import HealthFilterSerializer, PatientSerializer, HealthSerializer
 from dashborad.api.filters import HealthFilter
+from django.utils.dateparse import parse_date
+import datetime
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -25,8 +27,12 @@ def apiOverview(request):
 def healthList(request, pk):
     try:
         # health=Health.objects.get(slug=slug)
+        strDate = request.query_params.get('strDate', None)
+        startDate = parse_date(strDate)
+        endDate = startDate + datetime.timedelta(days=1)
 
-        health = Health.objects.filter(id=pk).filter(time__year=2016)[:3]
+        health = Health.objects.filter(id=pk).filter(time__gte=startDate).filter(time__lte=endDate)
+
 
     except Health.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -128,7 +134,7 @@ def healthPatients(request):
 def  healthHeartRate(request):
     if request.method=='GET':
         startdate=request.data.get('startdate')
-        enddate=request.data.get('enddate)
+        enddate=request.data.get('enddate')
         # filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
         filter_data=Health.objects.filter(date__range=[startdate, enddate])
         serializer=HealthFilterSerializer(filter_data,many=True)
