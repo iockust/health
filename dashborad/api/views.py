@@ -95,7 +95,7 @@ def healthUpdate(request, pk):
 @api_view(['POST'])
 def healthCreate(request):
     if request.method == 'POST':
-        serializer = PatientSerializer(data=request.data)
+        serializer = HealthSerializer(data=request.data)
         data = {}
 
         if serializer.is_valid():
@@ -117,5 +117,5 @@ def patientsList(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = HealthSerializer(patients, many=True)
+        serializer = PatientSerializer(patients, many=True)
         return Response(serializer.data)
