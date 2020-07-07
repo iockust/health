@@ -77,9 +77,6 @@ def healthPatientHeartRatePerMinutePerDay(request, pk):
     # except Patient.date_error_message
 
 
-<<<<<<< HEAD
-# if state_name is not None:
-                # queryset = queryset.filter(state__name=state_name)
 # @api_view(['GET'])
 # def  healthHeartRate(request,pk,date):
 #     if request.method=='GET':
