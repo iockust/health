@@ -140,8 +140,9 @@ def healthSummary(request,pk):
         end_of_week = start_of_week + datetime.timedelta(days=6)  # Sunday
 
         # weekly_avg_hearrate = Health.objects.filter(time__lte=end_of_week,time__gt=start_of_week.timedelta(days=7)).values('value').aggregate(Avg('value'))
-        weekly_avg_hearrate=Health.objects.filter(time__lte=start_of_week - datetime.timedelta(days=7),time__lt=start_of_week).aggregate(average_price=Avg('value'))
-        serializer=HealthSummarySerializer(weekly_avg_hearrate,many=True)
+        all_data=Health.objects.all()
+        # weekly_avg_hearrate=Health.objects.filter(time__lte=start_of_week - datetime.timedelta(days=7),time__lt=start_of_week).aggregate(average_price=Avg('value'))
+        serializer=HealthSummarySerializer(all_data,many=True)
         return Response(serializer.data)
 
 
