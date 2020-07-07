@@ -7,8 +7,7 @@ from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, Hea
 from dashborad.api.filters import HealthFilter
 
 
-# import datetime
-# import time
+
 from django.utils.dateparse import parse_date
 from django.db.models import Avg, Max, Min, Sum
 from datetime import datetime, date, time, timedelta
@@ -60,10 +59,6 @@ def healthPatients(request):
         return Response(serializer.data)
 
 
-# if state_name is not None:
-# queryset = queryset.filter(state__name=state_name)
-
-
 @api_view(['GET'])
 def healthPatientHeartRatePerMinutePerDay(request, pk):
     if request.method == 'GET':
@@ -75,7 +70,7 @@ def healthPatientHeartRatePerMinutePerDay(request, pk):
 
         serializer = HeartRateSerializer(health, many=True)
         return Response(serializer.data)
-    # except Patient.date_error_message
+
 
 
 # @api_view(['GET'])
