@@ -34,24 +34,23 @@ class Patient(models.Model):
         db_table = 'patient'
 
 
-<<<<<<< HEAD
 
-class Health(models.Model):
-    # id = models.BigIntegerField(db_column='Id', blank=True, null=True)  # Field name made lowercase.
-    time = models.DateTimeField(db_column='Time', blank=True, null=True)  # Field name made lowercase.
-    value = models.IntegerField(db_column='Value', blank=True, null=True)  # Field name made lowercase.
-    intensitytime = models.DateTimeField(db_column='IntensityTime', blank=True, null=True)  # Field name made lowercase.
-    intensity = models.IntegerField(db_column='Intensity', blank=True, null=True)  # Field name made lowercase.
-    stepsminute = models.DateTimeField(db_column='StepsMinute', blank=True, null=True)  # Field name made lowercase.
-    steps = models.IntegerField(db_column='Steps', blank=True, null=True)  # Field name made lowercase.
-    sleepminute = models.DateTimeField(db_column='SleepMinute', blank=True, null=True)  # Field name made lowercase.
-    sleepvalue = models.IntegerField(db_column='SleepValue', blank=True, null=True)  # Field name made lowercase.
-    sleeplogid = models.BigIntegerField(db_column='SleepLogId', blank=True, null=True)  # Field name made lowercase.
-    metminute = models.DateTimeField(db_column='MetMinute', blank=True, null=True)  # Field name made lowercase.
-    mets = models.DateTimeField(db_column='METs', blank=True, null=True)  # Field name made lowercase.
-    calminute = models.DateTimeField(db_column='CalMinute', blank=True, null=True)  # Field name made lowercase.
-    calories = models.FloatField(db_column='Calories', blank=True, null=True)  # Field name made lowercase.
-=======
+# class Health(models.Model):
+#     # id = models.BigIntegerField(db_column='Id', blank=True, null=True)  # Field name made lowercase.
+#     time = models.DateTimeField(db_column='Time', blank=True, null=True)  # Field name made lowercase.
+#     value = models.IntegerField(db_column='Value', blank=True, null=True)  # Field name made lowercase.
+#     intensitytime = models.DateTimeField(db_column='IntensityTime', blank=True, null=True)  # Field name made lowercase.
+#     intensity = models.IntegerField(db_column='Intensity', blank=True, null=True)  # Field name made lowercase.
+#     stepsminute = models.DateTimeField(db_column='StepsMinute', blank=True, null=True)  # Field name made lowercase.
+#     steps = models.IntegerField(db_column='Steps', blank=True, null=True)  # Field name made lowercase.
+#     sleepminute = models.DateTimeField(db_column='SleepMinute', blank=True, null=True)  # Field name made lowercase.
+#     sleepvalue = models.IntegerField(db_column='SleepValue', blank=True, null=True)  # Field name made lowercase.
+#     sleeplogid = models.BigIntegerField(db_column='SleepLogId', blank=True, null=True)  # Field name made lowercase.
+#     metminute = models.DateTimeField(db_column='MetMinute', blank=True, null=True)  # Field name made lowercase.
+#     mets = models.DateTimeField(db_column='METs', blank=True, null=True)  # Field name made lowercase.
+#     calminute = models.DateTimeField(db_column='CalMinute', blank=True, null=True)  # Field name made lowercase.
+#     calories = models.FloatField(db_column='Calories', blank=True, null=True)  # Field name made lowercase.
+# =======
 class HourlyHeartRateManager(models.Manager):
     def hourly_avg_rate(self, pid, startdate, enddate):
         from django.db import connection
@@ -82,4 +81,3 @@ class HourlyHeartRate(models.Model):
     HeartRate = models.IntegerField()
     Hour = models.IntegerField()
     objects = HourlyHeartRateManager()
->>>>>>> 816bac3b440e7e2e35e89c9fde2b9a6cd2bfcf0d

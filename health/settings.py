@@ -98,15 +98,12 @@ WSGI_APPLICATION = 'health.wsgi.application'
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'health',
 #         'USER':'root',
-<<<<<<< HEAD
 #         'PASSWORD':'9090',
 #         'HOST':'localhost'  
 
-=======
 #         'PASSWORD':'',
 #         'HOST':'localhost'
 #
->>>>>>> 816bac3b440e7e2e35e89c9fde2b9a6cd2bfcf0d
 #     }
 # }
 
@@ -129,11 +126,6 @@ DATABASES = {
         'USER':'iockustc_haseeb',
         'PASSWORD':'kust909090',
         'HOST':'localhost'
-<<<<<<< HEAD
-        
-
-=======
->>>>>>> 816bac3b440e7e2e35e89c9fde2b9a6cd2bfcf0d
     }
 }
 
@@ -200,9 +192,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-# USE_TZ = True
+USE_TZ = True
 
-USE_TZ = False
+# USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
