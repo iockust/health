@@ -136,11 +136,11 @@ def healthSummary(request,pk):
         # date_str = parse_date(strDate)
         # date_obj = datetime.strptime(date_str, '%Y-%m-%d')
         date_obj= parse_date(strDate)
-        start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
-        end_of_week = start_of_week + timedelta(days=6)  # Sunday
+        start_of_week = date_obj - datetime.timedelta(days=date_obj.weekday())  # Monday
+        end_of_week = start_of_week + datetime.timedelta(days=6)  # Sunday
 
         # weekly_avg_hearrate = Health.objects.filter(time__lte=end_of_week,time__gt=start_of_week.timedelta(days=7)).values('value').aggregate(Avg('value'))
-        weekly_avg_hearrate=Health.objects.filter(time__lte=start_of_week - timedelta(days=7),time__lt=start_of_week).aggregate(average_price=Avg('value'))
+        weekly_avg_hearrate=Health.objects.filter(time__lte=start_of_week - datetime.timedelta(days=7),time__lt=start_of_week).aggregate(average_price=Avg('value'))
         serializer=HealthSummarySerializer(weekly_avg_hearrate,many=True)
         return Response(serializer.data)
 
