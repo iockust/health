@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from dashborad.models import Health, Patient
 from dashborad.api.serializer import HealthFilterSerializer, PatientSerializer
 from dashborad.api.filters import HealthFilter
+import datetime
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -124,13 +125,39 @@ def healthPatients(request):
 
 # if state_name is not None:
                 # queryset = queryset.filter(state__name=state_name)
+# @api_view(['GET'])
+# def  healthHeartRate(request,pk,date):
+#     if request.method=='GET':
+#         startdate=request.data.get('startdate')
+#         enddate=request.data.get('enddate')
+        
+#         # filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
+#         # filter_data=Health.objects.filter(date__range=[startdate, enddate])
+#         filter_data=Health.objects.filter(id=pk).filter(time_gte=startdate).filter(time_lte=enddate)
+#         serializer=HealthFilterSerializer(filter_data,many=True)
+#         return Response(serializer.data)
+#     # except Patient.date_error_message
+
+# @api_view(['GET'])
+# def  healthHeartRate(request):
+#     pk = request.query_params.get('id')
+#     str_date = request.query_params.get('strDate')
+#     start_date = datetime.datetime.strptime(str_date, '%Y-%m-%d').date()
+
+#     end_date = start_date + datetime.timedelta(days=1)
+#     filter_date = Health.objects.filter(
+#         pk=pk,
+#         time__gte=start_date,
+#         time__lte=end_date
+#     )
+#     serializer=HealthFilterSerializer(filter_date,many=True)
+#     return Response(serializer.data)
+
 @api_view(['GET'])
-def  healthHeartRate(request):
-    if request.method=='GET':
-        # startdate=request.data.get('startdate')
-        # enddate=request.data.get('enddate)
-        filter_data = HealthFilter(request.GET, queryset=Health.objects.all())
-        # filter_data=Health.objects.filter(date__range=[startdate, enddate])
-        serializer=HealthFilterSerializer(filter_data,many=True)
+def healthHeartRate(request):
+    if request.method == 'GET':
+        date_input = request.query_params.get('strDate', None)
+        pk = request.query_params.get('id')
+        health_qs = Health.objects.filter(pk=pk, time__date=date_input)
+        serializer = HealthFilterSerializer(health_qs, many=True)
         return Response(serializer.data)
-    # except Patient.date_error_message

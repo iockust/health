@@ -16,4 +16,5 @@ class PatientSerializer(serializers.ModelSerializer):
 class HealthFilterSerializer(serializers.ModelSerializer):
     class Meta:
         model=Health
-        fields=['time','value']
+        # fields=['time','value']
+        fields= '__all__'
