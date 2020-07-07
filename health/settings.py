@@ -101,9 +101,6 @@ WSGI_APPLICATION = 'health.wsgi.application'
 #         'PASSWORD':'9090',
 #         'HOST':'localhost'  
 
-#         'PASSWORD':'',
-#         'HOST':'localhost'
-#
 #     }
 # }
 
