@@ -93,16 +93,16 @@ WSGI_APPLICATION = 'health.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'health',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'localhost'
-
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'health',
+#         'USER':'root',
+#         'PASSWORD':'',
+#         'HOST':'localhost'
+#
+#     }
+# }
 
 
 DATABASES = {
@@ -112,10 +112,8 @@ DATABASES = {
         'USER':'iockustc_haseeb',
         'PASSWORD':'kust909090',
         'HOST':'localhost'
-        
-
-#     }
-# }
+    }
+}
 
 
 
