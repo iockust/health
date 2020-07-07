@@ -39,8 +39,6 @@ class HourlyHeartRateSerializer(serializers.ModelSerializer):
 
 
 class HealthSummarySerializer(serializers.ModelSerializer):
-    serializers.serialize("json", Person.objects.all(), fields=["first_name", "last_name"])
-
     class Meta:
         model=Health
         fields = ['value']
