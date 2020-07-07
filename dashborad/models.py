@@ -84,34 +84,22 @@ class HourlyHeartRate(models.Model):
     objects = HourlyHeartRateManager()
 
 
-# class WeeklyHeartRateManager(models.Manager):
-#     def weekly_avg_rate(self, pid, startdate, enddate):
-#         from django.db import connection
-#         with connection.cursor() as cursor:
+class WeeklyHeartRateManager(models.Manager):
+    def weekly_avg_rate(self, pid, startdate, enddate):
+        from django.db import connection
+        with connection.cursor() as cursor:
 
-#             cursor.execute("""SELECT Week(time) Week, avg(value) HeartRate 
-#             FROM `dashborad_health` 
-#             where Id=%s and time BETWEEN %s and %s GROUP by Week(time)""", (pid, startdate, enddate))
-#             result_list = []
-#             for row in cursor.fetchall():
-#                 p = self.model(Week=row[0], HeartRate=row[1])
-#                 result_list.append(p)
-#             for h in range(24):
-#                 if not self.containsWeek(result_list, lambda x: x.Week == h):
-#                     p = self.model(Week=h, HeartRate=0)
-#                     result_list.append(p)
-
-#             result_list.sort(key=lambda x: x.Hour, reverse=False)
-#         return result_list
-
-#     def containsHour(self, list, filter):
-#         for x in list:
-#             if filter(x):
-#                 return True
-#         return False
+            cursor.execute("""SELECT Week(time) Week, avg(value) HeartRate 
+            FROM `dashborad_health` 
+            where Id=%s and time BETWEEN %s and %s GROUP by Week(time)""", (pid, startdate, enddate))
+            result_list = []
+            for row in cursor.fetchall():
+                p = self.model(Week=row[0], HeartRate=row[1])
+                result_list.append(p)
+        return result_list
 
 
-# class WeeekyHearRate(models.Model):
-#     HeartRate = models.IntegerField()
-#     Week= models.IntegerField()
-#     objects = HourlyHeartRateManager()
+class WeeklyHearRate(models.Model):
+    HeartRate = models.IntegerField()
+    Week= models.IntegerField()
+    objects =WeeklyHeartRateManager()
