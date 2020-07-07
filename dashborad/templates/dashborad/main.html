@@ -1,10 +1,17 @@
 {% extends 'dashborad/base.html' %}
 
 {% block content %}
+<!-- Styles -->
+<style>
+#chartdivhourlyheartrate {
+  width: 100%;
+  height: 300px;
+}
 
+</style>
 <!-- page content -->
  <div class="right_col" role="main">
-    <div class="">
+
       <div class="page-title">
         <div class="title_left">
           <h3>Patient Health Dashboard</h3>
@@ -14,25 +21,120 @@
           <div class="col-md-10 col-sm-10 col-xs-12 form-group pull-right top_search">
             <div class="input-group">
 
-                <select name="patient_id"  class="form-control">
+                <select name="patient_id" id="patient_id"  class="form-control">
                 {% for entry in patients %}
                     <option value="{{ entry.id }}">{{ entry.name }}</option>
                 {% endfor %}
                 </select>
+
+            <input class="datepicker" id="datepicker" data-date-format="yyyy-mm-dd">
+
               <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
+                <button class="btn btn-default" type="button"  onclick="getData();" >Go!</button>
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="clearfix"></div>
-<div class="row">
-
-</div>
-    </div>
   </div>
   <!-- page content -->
+<div class="row">
+<div class="col-6">
+    <div id="chartdivhourlyheartrate"></div>
+</div>
+    <div class="col-6"></div>
+</div>
+    <!-- Resources -->
+    <link src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+    $(function(){
+
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+
+
+function getData(){
+    var patient_id = document.getElementById("patient_id").value;
+    var qrydate = document.getElementById("datepicker").value;
+    var endpoint='/api/health-PatientHeartRatePerHourPerDay/'+patient_id+'/?strDate='+qrydate;
+    $.ajax({
+        method:"GET",
+        url:endpoint,
+        success:function(data){
+            console.log(data);
+            loadHourlyHeartRateChart(data);
+        },
+        error:function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+
+    });
+}
+
+function loadHourlyHeartRateChart(data){
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create("chartdivhourlyheartrate", am4charts.XYChart3D);
+
+// Add data
+chart.data = data;
+
+// Create axes
+let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "Hour";
+categoryAxis.renderer.labels.template.rotation = 270;
+categoryAxis.renderer.labels.template.hideOversized = false;
+categoryAxis.renderer.minGridDistance = 20;
+categoryAxis.renderer.labels.template.horizontalCenter = "right";
+categoryAxis.renderer.labels.template.verticalCenter = "middle";
+categoryAxis.tooltip.label.rotation = 270;
+categoryAxis.tooltip.label.horizontalCenter = "right";
+categoryAxis.tooltip.label.verticalCenter = "middle";
+
+let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.title.text = "HeartRate";
+valueAxis.title.fontWeight = "bold";
+
+// Create series
+var series = chart.series.push(new am4charts.ColumnSeries3D());
+series.dataFields.valueY = "HeartRate";
+series.dataFields.categoryX = "Hour";
+series.name = "HeartRates";
+series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+series.columns.template.fillOpacity = .8;
+
+var columnTemplate = series.columns.template;
+columnTemplate.strokeWidth = 2;
+columnTemplate.strokeOpacity = 1;
+columnTemplate.stroke = am4core.color("#FFFFFF");
+
+columnTemplate.adapter.add("fill", function(fill, target) {
+  return chart.colors.getIndex(target.dataItem.index);
+})
+
+columnTemplate.adapter.add("stroke", function(stroke, target) {
+  return chart.colors.getIndex(target.dataItem.index);
+})
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.lineX.strokeOpacity = 0;
+chart.cursor.lineY.strokeOpacity = 0;
+
+} // end loadHourHeartRateChart
+</script>
 
   {% endblock content %}
