@@ -41,5 +41,5 @@ class HourlyHeartRateSerializer(serializers.ModelSerializer):
 class HealthSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model=Health
-        fields = ['time','value']
+        fields ='__all__'
 

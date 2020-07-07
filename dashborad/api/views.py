@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from dashborad.models import Health, Patient, HourlyHeartRate,WeeklyHearRate
+from dashborad.models import Health, Patient, HourlyHeartRate,WeeklyHealthSummary
 from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer,HealthSummarySerializer
 from dashborad.api.filters import HealthFilter
 
@@ -154,9 +154,9 @@ def healthSummary(request, pk):
         start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
         end_of_week = start_of_week + timedelta(days=6)  # Sunday
 
-        weeklyHearRate = WeeklyHearRate.objects.weekly_avg_rate(pk, start_of_week, end_of_week)
+        weeklyhealthSummary = WeeklyHealthSummary.objects.weeklyHealthSummary_average(pk, start_of_week, end_of_week)
 
-        serializer = HourlyHeartRateSerializer(weeklyHearRate, many=True)
+        serializer = HealthSummarySerializer(weeklyhealthSummary ,many=True)
         return Response(serializer.data)
 
 

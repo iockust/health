@@ -84,22 +84,43 @@ class HourlyHeartRate(models.Model):
     objects = HourlyHeartRateManager()
 
 
-class WeeklyHeartRateManager(models.Manager):
-    def weekly_avg_rate(self, pid, startdate, enddate):
+
+
+class WeeklyHealthSummaryManager(models.Manager):
+    def weeklyHealthSummary_average(self, pid, startdate, enddate):
         from django.db import connection
         with connection.cursor() as cursor:
 
-            cursor.execute("""SELECT Week(time) Week, avg(value) HeartRate 
-            FROM `dashborad_health` 
-            where Id=%s and time BETWEEN %s and %s GROUP by Week(time)""", (pid, startdate, enddate))
+            cursor.execute(""" SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) AS Sleep,Min(value) as MinHeartReate,Max(value) as MaxHearRate
+            FROM `dashborad_health`  where Id=%s and (Time BETWEEN %s AND %s ) """,(pid, startdate, enddate))
             result_list = []
             for row in cursor.fetchall():
-                p = self.model(Week=row[0], HeartRate=row[1])
+                p = self.model(AverageHeartRate=row[0], AverageIntensity=row[1],AverageSleep=row[2],MinSleep=row[3],MaxSleep=row[4],MaxHearRate=row[5])
                 result_list.append(p)
         return result_list
 
 
-class WeeklyHearRate(models.Model):
-    HeartRate = models.IntegerField()
-    Week= models.IntegerField()
-    objects =WeeklyHeartRateManager()
+class WeeklyHealthSummary(models.Model):
+    AverageHeartRate=models.IntegerField()
+    AverageIntensity= models.IntegerField()
+    AverageSleep= models.IntegerField()
+    MinSleep= models.IntegerField()
+    MaxSleep= models.IntegerField()
+    MaxHearRate= models.IntegerField()
+
+    objects=WeeklyHealthSummaryManager()
+
+# SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) Sleep,AVG(SleepMinute),Min(value) as MinHeartReate,Max(value) as MaxHearRate
+#             FROM `dashborad_health`
+
+
+
+# SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) AS Sleep,AVG(SleepMinute),Min(value) as MinHeartReate,Max(value) as MaxHearRate
+#             FROM `dashborad_health`  where (Time BETWEEN '2016-04-12'AND '2016-05-12')
+
+
+
+#  MET minute is the amount of energy expended during a minute 
+
+# MET DescriptionThe metabolic equivalent of task is the objective measure of the ratio of the rate at which a person expends energy, relative to the mass of that person,
+
