@@ -139,7 +139,8 @@ def healthSummary(request,pk):
         start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
         end_of_week = start_of_week + timedelta(days=6)  # Sunday
 
-        weekly_avg_hearrate = Health.objects.filter(event__end_time__lte=end_of_week, event__start_time__gt=start_of_week.timedelta(days=7)).values('value').aggregate(Avg('value'))
+        # weekly_avg_hearrate = Health.objects.filter(event__end_time__lte=end_of_week, event__start_time__gt=start_of_week.timedelta(days=7)).values('value').aggregate(Avg('value'))
+        weekly_avg_hearrate=Health.objects.filter(event__start_time__gt=start_of_week - timedelta(days=7), event__start_time__lt=start_of_week).aggregate(average_price=Avg('value'))
         serializer=HealthSummarySerializer(weekly_avg_hearrate,many=True)
         return Response(serializer.data)
 
