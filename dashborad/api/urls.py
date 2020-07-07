@@ -1,17 +1,14 @@
-from dashborad.api.views import (apiOverview, healthList, healthDetial,
-                                 healthCreate, healthUpdate, healthPatients,healthHeartRate)
+from dashborad.api.views import (apiOverview, healthList, healthPatients, healthPatientHeartRatePerMinutePerDay,
+                                 healthPatientHeartRatePerHourPerDay)
 
 from django.urls import path
 
-
-urlpatterns= [
-    path('', apiOverview, name= 'api-overview'),
+urlpatterns = [
+    path('', apiOverview, name='api-overview'),
     path('health-list/<int:pk>/', healthList, name='health-list'),
-    path('health-detail/<str:pk>/', healthDetial, name='health-detail'),
-    path('health-create/', healthCreate, name='health-create'),
-    path('health-update/<str:pk>/', healthUpdate, name='health-update'),
-    # path('health-delete/<str:pk>/', healthDelete, name='health-Delete'),
     path('health-patients/', healthPatients, name='patients'),
-    path('health-heartrate/',healthHeartRate,name='health-heart-rate')
+    path('health-PatientHeartRatePerMinutePerDay/<int:pk>/', healthPatientHeartRatePerMinutePerDay
+         , name='health-PatientHeartRatePerMinutePerDay'),
+    path('health-PatientHeartRatePerHourPerDay/<int:pk>/', healthPatientHeartRatePerHourPerDay
+         , name='health-PatientHeartRatePerHourPerDay')
 ]
-

@@ -2,21 +2,24 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from dashborad.models import Health, Patient
-from dashborad.api.serializer import HealthFilterSerializer, PatientSerializer
+from dashborad.models import Health, Patient, HourlyHeartRate
+from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer
 from dashborad.api.filters import HealthFilter
+
+
 import datetime
+
+from django.utils.dateparse import parse_date
+import datetime
+
 
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
         'List': '/health-list/<int:pk>/',
-        'Detail View': '/health-detail/<str:pk>/',
-        'Create': '/health-create',
-        'Update': '/health-update/<str:pk>/',
-        'Delete': '/health-delete/<str:pk>/',
         'PatientsList': 'health-patients/',
-        'Health-heartrate':'health-heartrate/'
+        'Health-PatientHeartRatePerMinutePerDay': 'health-PatientHeartRatePerMinutePerDay/<int:pk>/',
+        'Health-PatientHeartRatePerHourPerDay': 'health-PatientHeartRatePerHourPerDay/<int:pk>/'
     }
 
     return Response(api_urls)
@@ -26,8 +29,12 @@ def apiOverview(request):
 def healthList(request, pk):
     try:
         # health=Health.objects.get(slug=slug)
+        strDate = request.query_params.get('strDate', None)
+        startDate = parse_date(strDate)
+        endDate = startDate + datetime.timedelta(days=1)
 
-        health = Health.objects.filter(id=pk).filter(time__year=2016)[:3]
+        health = Health.objects.filter(id=pk).filter(time__gte=startDate).filter(time__lte=endDate)
+
 
     except Health.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -35,77 +42,6 @@ def healthList(request, pk):
     if request.method == "GET":
         serializer = HealthSerializer(health, many=True)
         return Response(serializer.data)
-
-
-@api_view(['GET'])
-def healthDetial(request, pk):
-    try:
-        # health=Health.objects.get(slug=slug)
-        health = Health.objects.get(id=pk)[:1]
-
-    except Health.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == "GET":
-        serializer = HealthSerializer(health, many=False)
-        return Response(serializer.data)
-
-
-# Update
-@api_view(['POST'])
-def healthUpdate(request, pk):
-    try:
-        health = Health.objects.get(id=pk)
-
-    except Health.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == "POST":
-        serializer = HealthSerializer(instance=health, data=request.data)
-        data = {}
-
-        if serializer.is_valid():
-            serializer.save()
-            data["success"] = "update sucessful"
-            return Response(data=data)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# @api_view(['DELETE'])
-# def healthDelete(request, pk):
-#     try:
-#         health = Health.objects.get(id=pk)
-#
-#     except Health.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#
-#     if request.method == "DELETE":
-#         operation = Healthdata.delete()
-#         data = {}
-#
-#         if operation:
-#             data['successs'] = "delete successful"
-#
-#         else:
-#             data["failure"] = "delete failed "
-#
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# Create
-@api_view(['POST'])
-def healthCreate(request):
-    if request.method == 'POST':
-        serializer = HealthSerializer(data=request.data)
-        data = {}
-
-        if serializer.is_valid():
-            serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Jawad
@@ -123,6 +59,25 @@ def healthPatients(request):
         return Response(serializer.data)
 
 
+# if state_name is not None:
+# queryset = queryset.filter(state__name=state_name)
+
+
+@api_view(['GET'])
+def healthPatientHeartRatePerMinutePerDay(request, pk):
+    if request.method == 'GET':
+        strDate = request.query_params.get('strDate', None)
+        startDate = parse_date(strDate)
+        endDate = startDate + datetime.timedelta(days=1)
+
+        health = Health.objects.filter(id=pk).filter(time__gte=startDate).filter(time__lte=endDate)
+
+        serializer = HeartRateSerializer(health, many=True)
+        return Response(serializer.data)
+    # except Patient.date_error_message
+
+
+<<<<<<< HEAD
 # if state_name is not None:
                 # queryset = queryset.filter(state__name=state_name)
 # @api_view(['GET'])
@@ -153,11 +108,24 @@ def healthPatients(request):
 #     serializer=HealthFilterSerializer(filter_date,many=True)
 #     return Response(serializer.data)
 
+# @api_view(['GET'])
+# def healthHeartRate(request):
+#     if request.method == 'GET':
+#         date_input = request.query_params.get('strDate', None)
+#         pk = request.query_params.get('id')
+#         health_qs = Health.objects.filter(pk=pk, time__date=date_input)
+#         serializer = HealthFilterSerializer(health_qs, many=True)
+#         return Response(serializer.data)
+# =======
 @api_view(['GET'])
-def healthHeartRate(request):
+def healthPatientHeartRatePerHourPerDay(request, pk):
     if request.method == 'GET':
-        date_input = request.query_params.get('strDate', None)
-        pk = request.query_params.get('id')
-        health_qs = Health.objects.filter(pk=pk, time__date=date_input)
-        serializer = HealthFilterSerializer(health_qs, many=True)
+        strDate = request.query_params.get('strDate', None)
+        startDate = parse_date(strDate)
+        endDate = startDate + datetime.timedelta(days=1)
+
+        hourlyrate = HourlyHeartRate.objects.hourly_avg_rate(pk, startDate, endDate)
+
+        serializer = HourlyHeartRateSerializer(hourlyrate, many=True)
         return Response(serializer.data)
+

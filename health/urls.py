@@ -14,20 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path,include
+=======
+from django.urls import path, include
+>>>>>>> 816bac3b440e7e2e35e89c9fde2b9a6cd2bfcf0d
 from rest_framework_swagger.views import get_swagger_view
 
-schema_view=get_swagger_view(title="Health API Documentation")
+schema_view = get_swagger_view(title="Health API Documentation")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('dashborad/', include('dashborad.urls')),
-    
+
     path('', include('dashborad.urls')),
 
-
-        # REST FRAMEWORK URLS
-    path('api/v1/',include('dashborad.api.urls')),
-    path('api/v1/docs/',schema_view),
+    # REST FRAMEWORK URLS
+    path('api/v1/', include('dashborad.api.urls')),
+    path('api/v1/docs/', schema_view),
 
 ]
