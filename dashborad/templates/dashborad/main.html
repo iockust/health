@@ -186,6 +186,13 @@ chart.dateFormatter.inputDateFormat = "yyyy-MM-dd H:m:S";
 
 // Create axes
 var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.baseInterval = {
+  "timeUnit": "minute",
+  "count": 1
+};
+dateAxis.renderer.labels.template.location = 0.0001;
+dateAxis.renderer.minGridDistance = 30;
+dateAxis.renderer.labels.template.rotation = 270;
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
 // Create series
@@ -233,6 +240,7 @@ chart.scrollbarX.parent = chart.bottomAxesContainer;
 //initial Zoomed in area
 dateAxis.start = 0.79;
 dateAxis.keepSelection = true;
+
 
 } //end loadPerMinuteHeartRateChart
 
