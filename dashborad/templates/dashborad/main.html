@@ -3,7 +3,7 @@
 {% block content %}
 <!-- Styles -->
 <style>
-#chartdivhourlyheartrate {
+#chartdivhourlyheartrate, #chartdivminuteheartrate{
   width: 100%;
   height: 300px;
 }
@@ -27,7 +27,9 @@
                 {% endfor %}
                 </select>
 
-            <input class="datepicker" id="datepicker" data-date-format="yyyy-mm-dd">
+            <input class="datepicker" id="datepicker"
+                   data-date-format="yyyy-mm-dd"
+            value="2016-04-06">
 
               <span class="input-group-btn">
                 <button class="btn btn-default" type="button"  onclick="getData();" >Go!</button>
@@ -43,7 +45,7 @@
 <div class="col-6">
     <div id="chartdivhourlyheartrate"></div>
 </div>
-    <div class="col-6"></div>
+    <div class="col-6"><div id="chartdivminuteheartrate"></div></div>
 </div>
     <!-- Resources -->
     <link src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"></link>
@@ -61,8 +63,14 @@
         });
     });
 
+    var MinuteHeartRateData;
 
 function getData(){
+    getHourlyHeartRateData();
+    getPerMinuteHeartRateData();
+}
+
+function getHourlyHeartRateData(){
     var patient_id = document.getElementById("patient_id").value;
     var qrydate = document.getElementById("datepicker").value;
     var endpoint='/api/health-PatientHeartRatePerHourPerDay/'+patient_id+'/?strDate='+qrydate;
@@ -81,6 +89,27 @@ function getData(){
     });
 }
 
+function getPerMinuteHeartRateData(){
+    var patient_id = document.getElementById("patient_id").value;
+    var qrydate = document.getElementById("datepicker").value;
+    var endpoint='/api/health-PatientHeartRatePerMinutePerDay/'+patient_id+'/?strDate='+qrydate;
+    $.ajax({
+        method:"GET",
+        url:endpoint,
+        success:function(data){
+            console.log(data);
+            MinuteHeartRateData = data;
+            loadPerMinuteHeartRateChart(data)
+        },
+        error:function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+
+    });
+}
+
+
 function loadHourlyHeartRateChart(data){
 
 // Themes begin
@@ -88,7 +117,7 @@ am4core.useTheme(am4themes_animated);
 // Themes end
 
 // Create chart instance
-var chart = am4core.create("chartdivhourlyheartrate", am4charts.XYChart3D);
+chart = am4core.create("chartdivhourlyheartrate", am4charts.XYChart3D);
 
 // Add data
 chart.data = data;
@@ -104,6 +133,8 @@ categoryAxis.renderer.labels.template.verticalCenter = "middle";
 categoryAxis.tooltip.label.rotation = 270;
 categoryAxis.tooltip.label.horizontalCenter = "right";
 categoryAxis.tooltip.label.verticalCenter = "middle";
+categoryAxis.title.text = "Hours";
+categoryAxis.title.fontWeight = "bold";
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.title.text = "HeartRate";
@@ -138,6 +169,73 @@ chart.cursor.lineX.strokeOpacity = 0;
 chart.cursor.lineY.strokeOpacity = 0;
 
 } // end loadHourHeartRateChart
+
+function loadPerMinuteHeartRateChart(data) {
+
+    // Themes begin
+am4core.useTheme(am4themes_animated);
+
+// Create chart instance
+chart = am4core.create("chartdivminuteheartrate", am4charts.XYChart);
+
+// Add data
+chart.data = data;
+
+// Set input format for the dates
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd H:m:S";
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.valueY = "value";
+series.dataFields.dateX = "time";
+series.tooltipText = "{value}"
+series.strokeWidth = 2;
+series.minBulletDistance = 15;
+
+// Drop-shaped tooltips
+series.tooltip.background.cornerRadius = 20;
+series.tooltip.background.strokeOpacity = 0;
+series.tooltip.pointerOrientation = "vertical";
+series.tooltip.label.minWidth = 40;
+series.tooltip.label.minHeight = 40;
+series.tooltip.label.textAlign = "middle";
+series.tooltip.label.textValign = "middle";
+
+// Make bullets grow on hover
+var bullet = series.bullets.push(new am4charts.CircleBullet());
+bullet.circle.strokeWidth = 2;
+bullet.circle.radius = 4;
+bullet.circle.fill = am4core.color("#fff");
+
+var bullethover = bullet.states.create("hover");
+bullethover.properties.scale = 1.3;
+
+// Make a panning cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "panXY";
+chart.cursor.xAxis = dateAxis;
+chart.cursor.snapToSeries = series;
+
+// Create vertical scrollbar and place it before the value axis
+chart.scrollbarY = new am4core.Scrollbar();
+chart.scrollbarY.parent = chart.leftAxesContainer;
+chart.scrollbarY.toBack();
+
+// Create a horizontal scrollbar with previe and place it underneath the date axis
+chart.scrollbarX = new am4charts.XYChartScrollbar();
+chart.scrollbarX.series.push(series);
+chart.scrollbarX.parent = chart.bottomAxesContainer;
+
+//initial Zoomed in area
+dateAxis.start = 0.79;
+dateAxis.keepSelection = true;
+
+} //end loadPerMinuteHeartRateChart
+
 </script>
 
   {% endblock content %}

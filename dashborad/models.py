@@ -68,6 +68,7 @@ class HourlyHeartRateManager(models.Manager):
                     p = self.model(Hour=h, HeartRate=0)
                     result_list.append(p)
 
+            result_list.sort(key=lambda x: x.Hour, reverse=False)
         return result_list
 
     def containsHour(self, list, filter):
