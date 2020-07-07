@@ -154,9 +154,9 @@ def healthSummary(request, pk):
         start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
         end_of_week = start_of_week + timedelta(days=6)  # Sunday
 
-        hourlyrate = HourlyHeartRate.objects.hourly_avg_rate(pk, start_of_week, end_of_week)
+        weeklyHearRate = WeeklyHearRate.objects.weekly_avg_rate(pk, start_of_week, end_of_week)
 
-        serializer = HourlyHeartRateSerializer(hourlyrate, many=True)
+        serializer = HourlyHeartRateSerializer(weeklyHearRate, many=True)
         return Response(serializer.data)
 
 
