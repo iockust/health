@@ -42,4 +42,7 @@ class HealthSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model=Health
         fields ='__all__'
+        model=WeeklyHealthSummary
+        fields=['value','intensity','sleepminute']
+        
 

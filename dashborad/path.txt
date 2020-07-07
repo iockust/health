@@ -1,1 +1,2 @@
 /home/iockustc/virtualenv/health.iockust.com/3.7/bin/activate
+ id = models.ForeignKey(Health,null=True,on_delete=model.SET_NULL)
