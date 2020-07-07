@@ -39,7 +39,18 @@ class HourlyHeartRateManager(models.Manager):
             for row in cursor.fetchall():
                 p = self.model(Hour=row[0], HeartRate=row[1])
                 result_list.append(p)
+            for h in range(24):
+                if not self.containsHour(result_list, lambda x: x.Hour == h):
+                    p = self.model(Hour=h, HeartRate=0)
+                    result_list.append(p)
+
         return result_list
+
+    def containsHour(self, list, filter):
+        for x in list:
+            if filter(x):
+                return True
+        return False
 
 
 class HourlyHeartRate(models.Model):

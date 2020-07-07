@@ -117,7 +117,7 @@ series.name = "HeartRates";
 series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
 series.columns.template.fillOpacity = .8;
 series.columns.template.events.on("hit", function(ev) {
- console.log("clicked on ", ev.target);
+ console.log("clicked on ", ev.target.dataItem.dataContext.Hour);
 }, this);
 
 var columnTemplate = series.columns.template;
