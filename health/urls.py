@@ -37,10 +37,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('dashborad/', include('dashborad.urls')),
 
-    path('', include('dashborad.urls')),
+    # path('', include('dashborad.urls')),
 
     # REST FRAMEWORK URLS
-    path('api/v1/', include('dashborad.api.urls')),
+    # path('api/v1/', include('dashborad.api.urls')),
 
     # Documentation of Api
     
