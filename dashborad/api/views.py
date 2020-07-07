@@ -32,7 +32,7 @@ def healthList(request, pk):
         # health=Health.objects.get(slug=slug)
         strDate = request.query_params.get('strDate', None)
         startDate = parse_date(strDate)
-        endDate = startDate + datetime.timedelta(days=1)
+        endDate = startDate + timedelta(days=1)
 
         health = Health.objects.filter(id=pk).filter(time__gte=startDate).filter(time__lte=endDate)
 
@@ -69,7 +69,7 @@ def healthPatientHeartRatePerMinutePerDay(request, pk):
     if request.method == 'GET':
         strDate = request.query_params.get('strDate', None)
         startDate = parse_date(strDate)
-        endDate = startDate + datetime.timedelta(days=1)
+        endDate = startDate + timedelta(days=1)
 
         health = Health.objects.filter(id=pk).filter(time__gte=startDate).filter(time__lte=endDate)
 
@@ -120,7 +120,7 @@ def healthPatientHeartRatePerHourPerDay(request, pk):
     if request.method == 'GET':
         strDate = request.query_params.get('strDate', None)
         startDate = parse_date(strDate)
-        endDate = startDate + datetime.timedelta(days=1)
+        endDate = startDate + timedelta(days=1)
 
         hourlyrate = HourlyHeartRate.objects.hourly_avg_rate(pk, startDate, endDate)
 
