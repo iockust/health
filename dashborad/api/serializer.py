@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashborad.models import Health, Patient
+from dashborad.models import Health, Patient, HourlyHeartRate
 
 
 class HealthSerializer(serializers.ModelSerializer):
@@ -18,3 +18,9 @@ class HeartRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Health
         fields = ['time', 'value']
+
+
+class HourlyHeartRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HourlyHeartRate
+        fields = ['Hour', 'HeartRate']

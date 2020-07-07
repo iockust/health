@@ -26,3 +26,23 @@ class Patient(models.Model):
         managed = False
         db_table = 'patient'
 
+
+class HourlyHeartRateManager(models.Manager):
+    def hourly_avg_rate(self, pid, startdate, enddate):
+        from django.db import connection
+        with connection.cursor() as cursor:
+
+            cursor.execute("""SELECT Hour(time) Hour, avg(value) HoulryHeartRate 
+            FROM `dashborad_health` 
+            where Id=%s and time BETWEEN %s and %s GROUP by Hour(time)""", (pid, startdate, enddate))
+            result_list = []
+            for row in cursor.fetchall():
+                p = self.model(Hour=row[0], HeartRate=row[1])
+                result_list.append(p)
+        return result_list
+
+
+class HourlyHeartRate(models.Model):
+    HeartRate = models.IntegerField()
+    Hour = models.IntegerField()
+    objects = HourlyHeartRateManager()

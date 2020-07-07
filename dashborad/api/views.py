@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from dashborad.models import Health, Patient
-from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer
+from dashborad.models import Health, Patient, HourlyHeartRate
+from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer
 from dashborad.api.filters import HealthFilter
 from django.utils.dateparse import parse_date
 import datetime
@@ -14,7 +14,8 @@ def apiOverview(request):
     api_urls = {
         'List': '/health-list/<int:pk>/',
         'PatientsList': 'health-patients/',
-        'Health-PatientHeartRatePerMinutePerDay': 'health-PatientHeartRatePerMinutePerDay/<int:pk>/'
+        'Health-PatientHeartRatePerMinutePerDay': 'health-PatientHeartRatePerMinutePerDay/<int:pk>/',
+        'Health-PatientHeartRatePerHourPerDay': 'health-PatientHeartRatePerHourPerDay/<int:pk>/'
     }
 
     return Response(api_urls)
@@ -56,6 +57,8 @@ def healthPatients(request):
 
 # if state_name is not None:
 # queryset = queryset.filter(state__name=state_name)
+
+
 @api_view(['GET'])
 def healthPatientHeartRatePerMinutePerDay(request, pk):
     if request.method == 'GET':
@@ -68,3 +71,16 @@ def healthPatientHeartRatePerMinutePerDay(request, pk):
         serializer = HeartRateSerializer(health, many=True)
         return Response(serializer.data)
     # except Patient.date_error_message
+
+
+@api_view(['GET'])
+def healthPatientHeartRatePerHourPerDay(request, pk):
+    if request.method == 'GET':
+        strDate = request.query_params.get('strDate', None)
+        startDate = parse_date(strDate)
+        endDate = startDate + datetime.timedelta(days=1)
+
+        hourlyrate = HourlyHeartRate.objects.hourly_avg_rate(pk, startDate, endDate)
+
+        serializer = HourlyHeartRateSerializer(hourlyrate, many=True)
+        return Response(serializer.data)
