@@ -152,7 +152,7 @@ def healthSummary(request, pk):
         strDate = request.query_params.get('strDate', None)
         date_obj= parse_date(strDate)
         start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
-        end_of_week = start_of_week + timedelta(days=6)  # Sunday
+        end_of_week = start_of_week + timedelta(days=30)  # Sunday 6
 
         weeklyhealthSummary = WeeklyHealthSummary.objects.weeklyHealthSummary_average(pk, start_of_week, end_of_week)
 
