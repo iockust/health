@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from dashborad.models import Health, Patient, HourlyHeartRate
-from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer
+from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer,HealthSummarySerializer
 from dashborad.api.filters import HealthFilter
 
 
@@ -11,7 +11,8 @@ import datetime
 
 from django.utils.dateparse import parse_date
 import datetime
-
+from django.db.models import Avg, Max, Min, Sum
+from datetime import datetime, timedelta
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -125,4 +126,22 @@ def healthPatientHeartRatePerHourPerDay(request, pk):
 
         serializer = HourlyHeartRateSerializer(hourlyrate, many=True)
         return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def healthSummary(request,pk):
+    if request.method == 'GET':
+        strDate = request.query_params.get('strDate', None)
+        date_str = parse_date(strDate)
+        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+        start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
+        end_of_week = start_of_week + timedelta(days=6)  # Sunday
+
+        weekly_avg_hearrate = Health.objects.filter(event__end_time__lte=end_of_week, event__start_time__gt=start_of_week.timedelta(days=7)).values('value').aggregate(Avg('value'))
+        serializer=HealthSummarySerializer(weekly_avg_hearrate,many=True)
+        return Response(serializer.data)
+        
+
+
 

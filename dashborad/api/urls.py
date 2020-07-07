@@ -1,5 +1,5 @@
 from dashborad.api.views import (apiOverview, healthList, healthPatients, healthPatientHeartRatePerMinutePerDay,
-                                 healthPatientHeartRatePerHourPerDay)
+                                 healthPatientHeartRatePerHourPerDay,healthSummary)
 
 from django.urls import path
 
@@ -10,5 +10,7 @@ urlpatterns = [
     path('health-PatientHeartRatePerMinutePerDay/<int:pk>/', healthPatientHeartRatePerMinutePerDay
          , name='health-PatientHeartRatePerMinutePerDay'),
     path('health-PatientHeartRatePerHourPerDay/<int:pk>/', healthPatientHeartRatePerHourPerDay
-         , name='health-PatientHeartRatePerHourPerDay')
+         , name='health-PatientHeartRatePerHourPerDay'),
+    # Health Summary
+    path('health-Summary/<int:pk>/',healthSummary, name='health-summary')
 ]

@@ -82,3 +82,5 @@ class HourlyHeartRate(models.Model):
     HeartRate = models.IntegerField()
     Hour = models.IntegerField()
     objects = HourlyHeartRateManager()
+
+

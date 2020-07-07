@@ -28,3 +28,20 @@ class HourlyHeartRateSerializer(serializers.ModelSerializer):
         model = HourlyHeartRate
         fields = ['Hour', 'HeartRate']
 
+
+class HourlyHeartRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Health
+        # fields=['time','value']
+        fields= '__all__'
+        model = HourlyHeartRate
+        fields = ['Hour', 'HeartRate']
+
+
+class HealthSummarySerializer(serializers.ModelSerializer):
+    serializers.serialize("json", Person.objects.all(), fields=["first_name", "last_name"])
+
+    class Meta:
+        model=Health
+        fields = ['value']
+
