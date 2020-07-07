@@ -6,3 +6,4 @@ dj-static
 static3
 django-filter
 django-rest-swagger
+drf-yasg
