@@ -136,7 +136,7 @@ def healthSummary(request,pk):
         strDate = request.query_params.get('strDate', None)
         # date_str = parse_date(strDate)
         # date_obj = datetime.strptime(date_str, '%Y-%m-%d')
-        date_str= parse_date(strDate)
+        date_obj= parse_date(strDate)
         start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
         end_of_week = start_of_week + timedelta(days=6)  # Sunday
 
