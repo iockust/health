@@ -8,6 +8,8 @@ class Patient(models.Model):
     id = models.BigIntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
+    def __str__(self):
+        return self.name
     class Meta:
         managed = False
         db_table = 'patient'
@@ -27,6 +29,9 @@ class Health(models.Model):
     mets = models.DateTimeField(db_column='METs', blank=True, null=True)  # Field name made lowercase.
     calminute = models.DateTimeField(db_column='CalMinute', blank=True, null=True)  # Field name made lowercase.
     calories = models.FloatField(db_column='Calories', blank=True, null=True)  # Field name made lowercase.
+
+    def __str__(self):
+        return self.time 
 
 class HourlyHeartRateManager(models.Manager):
     def hourly_avg_rate(self, pid, startdate, enddate):
