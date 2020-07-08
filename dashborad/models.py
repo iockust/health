@@ -66,8 +66,8 @@ class WeeklyHealthSummaryManager(models.Manager):
         from django.db import connection
         with connection.cursor() as cursor:
 
-            cursor.execute(""" SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) AS Sleep
-            ,AVG(SleepMinute),Min(value) as MinHeartReate,Max(value) as MaxHearRate
+            cursor.execute(""" SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepValue) AS Sleep
+            ,AVG(SleepValue),Min(value) as MinHeartReate,Max(value) as MaxHearRate
             FROM `dashborad_health`  where Id=%s and (Time BETWEEN %s AND %s ) """, (pid, startdate, enddate))
             result_list = []
             for row in cursor.fetchall():
