@@ -8,6 +8,6 @@ urlpatterns = [
     path('api/charts/data/', ChartsData.as_view(), name='dashborad-charts-api'),
 
     # REST FRAMEWORK URLS
-    # path('api/', include('dashborad.api.urls')),
+    path('api/', include('dashborad.api.urls')),
 
 ]
