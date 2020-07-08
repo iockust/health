@@ -107,11 +107,13 @@ class WeeklyHealthSummaryManager(models.Manager):
         from django.db import connection
         with connection.cursor() as cursor:
 
-            cursor.execute(""" SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) AS Sleep,AVG(SleepMinute),Min(value) as MinHeartReate,Max(value) as MaxHearRate
-            FROM `dashborad_health`  where Id=%s and (Time BETWEEN %s AND %s ) """,(pid, startdate, enddate))
+            cursor.execute(""" SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) AS Sleep
+            ,AVG(SleepMinute),Min(value) as MinHeartReate,Max(value) as MaxHearRate
+            FROM `dashborad_health`  where Id=%s and (Time BETWEEN %s AND %s ) """, (pid, startdate, enddate))
             result_list = []
             for row in cursor.fetchall():
-                p = self.model(AverageHeartRate=row[0], AverageIntensity=row[1],AverageSleep=row[2],MinSleep=row[3],MaxSleep=row[4],MaxHearRate=row[5])
+                p = self.model(AverageHeartRate=row[0], AverageIntensity=row[1],
+                               AverageSleep=row[2], MinSleep=row[3], MaxSleep=row[4], MaxHearRate=row[5])
                 result_list.append(p)
         return result_list
 

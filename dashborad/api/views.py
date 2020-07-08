@@ -151,7 +151,7 @@ def healthSummary(request, pk):
 
         weeklyhealthSummary = WeeklyHealthSummary.objects.weeklyHealthSummary_average(pk, start_of_week, end_of_week)
 
-        serializer = HealthSummarySerializer(weeklyhealthSummary ,many=True)
+        serializer = HealthSummarySerializer(weeklyhealthSummary, many=True)
         return Response(serializer.data)
 
 
