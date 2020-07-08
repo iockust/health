@@ -6,11 +6,10 @@ from dashborad.models import Health, Patient, HourlyHeartRate,WeeklyHealthSummar
 from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer,HealthSummarySerializer
 from dashborad.api.filters import HealthFilter
 
-
-
 from django.utils.dateparse import parse_date
 from django.db.models import Avg, Max, Min, Sum
 from datetime import datetime, date, time, timedelta
+
 
 @api_view(['GET'])
 def apiOverview(request):
