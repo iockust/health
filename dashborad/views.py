@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from django.http import JsonResponse
-from .models import Health, Patient
+# from .models import Health, Patient
 from django.core import serializers
 
 
