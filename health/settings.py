@@ -130,9 +130,9 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'iockustc_test',
-#         'USER':'iockustc_test',
-#         'PASSWORD':'kust909090',
+#         'NAME': 'iockustc_health',
+#         'USER':'root',
+#         'PASSWORD':'9090',
 #         'HOST':'localhost'
 #     }
 # }
