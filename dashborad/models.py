@@ -92,6 +92,8 @@ class WeeklyHealthSummary(models.Model):
 
     objects=WeeklyHealthSummaryManager()
 
+    
+
 # SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) Sleep,AVG(SleepMinute),Min(value) as MinHeartReate,Max(value) as MaxHearRate
 #             FROM `dashborad_health`
 # SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepMinute) AS Sleep,AVG(SleepMinute),Min(value) as MinHeartReate,Max(value) as MaxHearRate
