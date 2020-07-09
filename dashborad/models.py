@@ -35,8 +35,8 @@ class Patient(models.Model):
 
 class Health(models.Model):
     # patientid = models.IntegerField(primary_key=True,blank=False, null=False)
-    patientid=models.AutoField(primary_key=True)
-    # patientid = models.BigIntegerField(db_column='PatientId',primary_key=True)  # Field name made lowercase.
+    # patientid=models.AutoField(primary_key=True) # this is a primary key, not the patientId
+    id = models.BigIntegerField(db_column='Id', null=True)  # This is patientId column.
     time = models.DateTimeField(db_column='Time', blank=True, null=True)  # Field name made lowercase.
     value = models.IntegerField(db_column='Value', blank=True, null=True)  # Field name made lowercase.
     intensitytime = models.DateTimeField(db_column='IntensityTime', blank=True, null=True)  # Field name made lowercase.
@@ -47,7 +47,7 @@ class Health(models.Model):
     sleepvalue = models.IntegerField(db_column='SleepValue', blank=True, null=True)  # Field name made lowercase.
     sleeplogid = models.BigIntegerField(db_column='SleepLogId', blank=True, null=True)  # Field name made lowercase.
     metminute = models.DateTimeField(db_column='MetMinute', blank=True, null=True)  # Field name made lowercase.
-    mets = models.DateTimeField(db_column='METs', blank=True, null=True)  # Field name made lowercase.
+    mets = models.IntegerField(db_column='METs', blank=True, null=True)  # Field name made lowercase.
     calminute = models.DateTimeField(db_column='CalMinute', blank=True, null=True)  # Field name made lowercase.
     calories = models.FloatField(db_column='Calories', blank=True, null=True)  # Field name made lowercase.
 
