@@ -43,4 +43,5 @@ class HealthSummarySerializer(serializers.ModelSerializer):
         model = Health
         fields = '__all__'
         model = WeeklyHealthSummary
+        #
         fields = ['AverageHeartRate', 'AverageIntensity', 'AverageSleep', 'MinSleep', 'MaxSleep', 'MaxHearRate']

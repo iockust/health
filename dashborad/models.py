@@ -36,7 +36,7 @@ class Patient(models.Model):
 class Health(models.Model):
     # patientid = models.IntegerField(primary_key=True,blank=False, null=False)
     # patientid=models.AutoField(primary_key=True) # this is a primary key, not the patientId
-    id = models.BigIntegerField(db_column='Id', null=True)  # This is patientId column.
+    # id = models.BigIntegerField(db_column='Id', blank=True, null=True)  # This is patientId column.
     time = models.DateTimeField(db_column='Time', blank=True, null=True)  # Field name made lowercase.
     value = models.IntegerField(db_column='Value', blank=True, null=True)  # Field name made lowercase.
     intensitytime = models.DateTimeField(db_column='IntensityTime', blank=True, null=True)  # Field name made lowercase.
