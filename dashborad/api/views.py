@@ -1,3 +1,4 @@
+import pytz
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -62,10 +63,12 @@ def healthPatients(request):
 def healthPatientHeartRatePerMinutePerDay(request, pk):
     if request.method == 'GET':
         strDate = request.query_params.get('strDate', None)
-        startDate = parse_date(strDate)
-        endDate = startDate + timedelta(days=1)
+        # startDate = parse_date(strDate + " 00:00:00")
+        startDate = datetime.strptime(strDate + " 00:00:00", '%Y-%m-%d %H:%M:%S')
+        aware_StartDate = pytz.timezone('US/Eastern').localize(startDate, is_dst=None)
+        endDate = aware_StartDate + timedelta(days=1)
 
-        health = Health.objects.filter(id=pk).filter(time__gte=startDate).filter(time__lte=endDate)
+        health = Health.objects.filter(id=pk).filter(time__gte=aware_StartDate).filter(time__lte=endDate)
 
         serializer = HeartRateSerializer(health, many=True)
         return Response(serializer.data)
@@ -144,12 +147,14 @@ def healthPatientHeartRatePerHourPerDay(request, pk):
 def healthSummary(request, pk):
     if request.method == 'GET':
         strDate = request.query_params.get('strDate', None)
+
         date_obj= parse_date(strDate)
+
+
         start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
         end_of_week = start_of_week + timedelta(days=6)  # Sunday 6
 
         weeklyhealthSummary = WeeklyHealthSummary.objects.weeklyHealthSummary_average(pk, start_of_week, end_of_week)
-
         serializer = HealthSummarySerializer(weeklyhealthSummary, many=True)
         return Response(serializer.data)
 
