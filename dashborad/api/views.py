@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from dashborad.models import Health, Patient, HourlyHeartRate,WeeklyHealthSummary
+from dashborad.models import Health, Patient, HourlyHeartRate, WeeklyHealthSummary, MinuteHeartRate
 from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer,HealthSummarySerializer
 from dashborad.api.filters import HealthFilter
 
@@ -63,14 +63,21 @@ def healthPatients(request):
 def healthPatientHeartRatePerMinutePerDay(request, pk):
     if request.method == 'GET':
         strDate = request.query_params.get('strDate', None)
+        startDate = parse_date(strDate)
         # startDate = parse_date(strDate + " 00:00:00")
-        startDate = datetime.strptime(strDate + " 00:00:00", '%Y-%m-%d %H:%M:%S')
-        aware_StartDate = pytz.timezone('US/Eastern').localize(startDate, is_dst=None)
-        endDate = aware_StartDate + timedelta(days=1)
+        # startDate = datetime.strptime(strDate + " 00:00:00", '%Y-%m-%d %H:%M:%S')
+        # aware_StartDate = pytz.timezone('US/Eastern').localize(startDate, is_dst=None)
+        # startDate = aware_StartDate.replace(tzinfo=None)
+        endDate = startDate + timedelta(days=1)
 
-        health = Health.objects.filter(id=pk).filter(time__gte=aware_StartDate).filter(time__lte=endDate)
+        # health = Health.objects.filter(id=pk).filter(time__gte=aware_StartDate).filter(time__lte=endDate)
+        #
+        # serializer = HeartRateSerializer(health, many=True)
 
-        serializer = HeartRateSerializer(health, many=True)
+        heartrate = MinuteHeartRate.objects.get_heart_rate(pk, startDate, endDate)
+
+        serializer = HeartRateSerializer(heartrate, many=True)
+
         return Response(serializer.data)
 
 

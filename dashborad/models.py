@@ -84,6 +84,31 @@ class HourlyHeartRate(models.Model):
     Hour = models.IntegerField()
     objects = HourlyHeartRateManager()
 
+class MinuteHeartRateManager(models.Manager):
+    def get_heart_rate(self, pid, startdate, enddate):
+        from django.db import connection
+        with connection.cursor() as cursor:
+
+            cursor.execute("""SELECT time, value 
+            FROM `dashborad_health` 
+            where Id=%s and time BETWEEN %s and %s order by time """, (pid, startdate, enddate))
+            result_list = []
+            for row in cursor.fetchall():
+                p = self.model(time=row[0], value=row[1])
+                result_list.append(p)
+            # for h in range(24):
+            #     if not self.containsHour(result_list, lambda x: x.Hour == h):
+            #         p = self.model(Hour=h, HeartRate=0)
+            #         result_list.append(p)
+
+            # result_list.sort(key=lambda x: x.Hour, reverse=False)
+        return result_list
+
+
+class MinuteHeartRate(models.Model):
+    value = models.IntegerField()
+    time = models.IntegerField()
+    objects = MinuteHeartRateManager()
 
 class WeeklyHealthSummaryManager(models.Manager):
     def weeklyHealthSummary_average(self, pid, startdate, enddate):
