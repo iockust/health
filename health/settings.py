@@ -158,16 +158,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/static')
-# STATIC_URL = "/home/iockustc/repositories/healthproject/frontend/static/"
+STATIC_URL = "/home/iockustc/repositories/healthproject/frontend/static/"
 
 
 
 STATIC_URL='/static/'
 MEDIA_URL='/media/'
 STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'frontend/static')
+    os.path.join(BASE_DIR,'assets')
 ]
 
 
-# STATIC_ROOT='/home/iockustc/public_html/static'
-# MEDIA_ROOT='/home/iockustc/public_html/media'
+STATIC_ROOT='/home/iockustc/public_html/static'
+MEDIA_ROOT='/home/iockustc/public_html/media'
