@@ -41,11 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'dashborad.apps.DashboradConfig',
     'django_extensions',
     'django_filters',
     'rest_framework_swagger',
     'drf_yasg',
+
+    # APPS
+    'backend.apps.BackendConfig',
+    'api.apps.ApiConfig',
+    'frontend.apps.FrontendConfig',
 ]
 
 
@@ -97,23 +101,10 @@ WSGI_APPLICATION = 'health.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'health',
-#         'USER':'root',
-#         'PASSWORD':'9090',
-#         'HOST':'localhost'  
-
-#     }
-# }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'healthy',
-#         'USER':'root',
-#         'PASSWORD':'9090',
-#         'HOST':'localhost'  
-
+#         'NAME': 'iockustc_health',
+#         'USER':'iockustc_haseeb',
+#         'PASSWORD':'kust909090',
+#         'HOST':'localhost'
 #     }
 # }
 
@@ -121,51 +112,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'iockustc_health',
-        'USER':'iockustc_haseeb',
-        'PASSWORD':'kust909090',
+        'USER':'root',
+        'PASSWORD':'9090',
         'HOST':'localhost'
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'iockustc_health',
-#         'USER':'root',
-#         'PASSWORD':'9090',
-#         'HOST':'localhost'
-#     }
-# }
-
-
-
-# Local Postgres
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'fitbit',
-#         'USER':'postgres',
-#         'PASSWORD':'1023',
-#         'HOST':'localhost'
-        
-
-#     }
-# }
-
-# Mlab
-
-# DATABASES = {
-#     'default': {
-#         'NAME': 'fitbitt',
-#         'AUTH_SOURCE': 'django-linecms-demo',
-#         'USER': '',
-#         'PASSWORD': '<password>',
-#         'HOST': '<code>.mlab.com',
-#         'PORT': <port>,
-#         'ENGINE': 'djongo'
-#     }
-# }
 
 
 
@@ -207,22 +158,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = "/home/iockustc/repositories/healthproject/dashborad/static/"
+STATIC_URL = "/home/iockustc/repositories/healthproject/frontend/static/"
 
 
 
-# # Static asset configuration
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# STATIC_ROOT = 'staticfiles'
-# STATICFILES_DIRS = (
-# os.path.join(BASE_DIR, 'static'),
-# )
-
-# BASE_DIR='home/iockustc/health.iockust.com/'
-
-
-STATIC_URL='/static/'
+# STATIC_URL='/static/'
 MEDIA_URL='/media/'
-STATICFILES_DIRS=[BASE_DIR +"/assets",]
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'frontend/static')
+]
+
+
 STATIC_ROOT='/home/iockustc/public_html/static'
 MEDIA_ROOT='/home/iockustc/public_html/media'

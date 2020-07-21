@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<!-- Styles -->
+<style>
+#chartdivhourlyheartrate, #chartdivminuteheartrate{
+  width: 100%;
+  height: 300px;
+}
+
+</style>
+<!-- page content -->
+ <div class="right_col" role="main">
+
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Patient Health Dashboard</h3>
+        </div>
+
+        <div class="title_right">
+          <div class="col-md-10 col-sm-10 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+
+                <select name="patient_id" id="patient_id"  class="form-control">
+                {% for entry in patients %}
+                    <option value="{{ entry.id }}">{{ entry.name }}</option>
+                {% endfor %}
+                </select>
+
+            <input class="datepicker" id="datepicker"
+                   data-date-format="yyyy-mm-dd"
+            value="2016-04-06">
+
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button"  onclick="getData();" >Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <!-- page content -->
+<div class="row">
+<div class="col-6">
+    <div id="chartdivhourlyheartrate"></div>
+</div>
+    <div class="col-6"><div id="chartdivminuteheartrate"></div></div>
+</div>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Weekly Summary</h1>
+</div>
+
+<div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Min Heart Rate (Weekly)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="minHeartRate">--</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-heartbeat fa-2x text-danger"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Annual) Card Example -->
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Max Heart Rate (Weekly)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="maxHeartRate">--</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-heartbeat fa-2x text-danger"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tasks Card Example -->
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Avg Heart Rate (Weekly)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="avgHeartRate">--</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-heartbeat fa-2x text-danger"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Avg Intensity (Weekly)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="avgIntensity">--</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-running fa-2x text-warning"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+ <div class="col-xl-2 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Avg Sleep (Weekly)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="avgSleep">--</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-bed fa-2x text-info"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+<!-- Chart code -->
+<script>
+    $(function(){
+
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+
+    var MinuteHeartRateData;
+
+function getData(){
+    getHourlyHeartRateData();
+    getPerMinuteHeartRateData();
+    getWeeklySummaryData();
+}
+
+function getHourlyHeartRateData(){
+    var patient_id = document.getElementById("patient_id").value;
+    var qrydate = document.getElementById("datepicker").value;
+    var endpoint='/api/v1/health-PatientHeartRatePerHourPerDay/'+patient_id+'/?strDate='+qrydate;
+    $.ajax({
+        method:"GET",
+        url:endpoint,
+        success:function(data){
+            console.log(data);
+            loadHourlyHeartRateChart(data);
+        },
+        error:function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+
+    });
+}
+
+function getWeeklySummaryData(){
+    var patient_id = document.getElementById("patient_id").value;
+    var qrydate = document.getElementById("datepicker").value;
+    var endpoint='/api/v1/weekly-health-Summary/'+patient_id+'/?strDate='+qrydate;
+    $.ajax({
+        method:"GET",
+        url:endpoint,
+        success:function(data){
+            console.log(data);
+
+            loadWeeklySummaryCards(data)
+        },
+        error:function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+
+    });
+}
+
+function loadWeeklySummaryCards(data) {
+      {#p = self.model(AverageHeartRate=row[0], AverageIntensity=row[1],#}
+      {#                         AverageSleep=row[2], MinHeartRate=row[3], MaxHeartRate=row[4])#}
+document.getElementById("minHeartRate").innerHTML=data[0].MinHeartRate;
+document.getElementById("maxHeartRate").innerHTML=data[0].MaxHeartRate;
+document.getElementById("avgHeartRate").innerHTML=data[0].AverageHeartRate;
+
+document.getElementById("avgSleep").innerHTML=data[0].AverageSleep;
+document.getElementById("avgIntensity").innerHTML=data[0].AverageIntensity;
+}
+
+function getPerMinuteHeartRateData(){
+    var patient_id = document.getElementById("patient_id").value;
+    var qrydate = document.getElementById("datepicker").value;
+    var endpoint='/api/v1/health-PatientHeartRatePerMinutePerDay/'+patient_id+'/?strDate='+qrydate;
+    $.ajax({
+        method:"GET",
+        url:endpoint,
+        success:function(data){
+            console.log(data);
+            MinuteHeartRateData = data;
+            if(Object.keys(data).length){
+            loadPerMinuteHeartRateChart(data);
+            }
+
+        },
+        error:function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+
+    });
+}
+
+
+function loadHourlyHeartRateChart(data){
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+chart = am4core.create("chartdivhourlyheartrate", am4charts.XYChart3D);
+
+// Add data
+chart.data = data;
+
+// Create axes
+let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "Hour";
+categoryAxis.renderer.labels.template.rotation = 270;
+categoryAxis.renderer.labels.template.hideOversized = false;
+categoryAxis.renderer.minGridDistance = 20;
+categoryAxis.renderer.labels.template.horizontalCenter = "right";
+categoryAxis.renderer.labels.template.verticalCenter = "middle";
+categoryAxis.tooltip.label.rotation = 270;
+categoryAxis.tooltip.label.horizontalCenter = "right";
+categoryAxis.tooltip.label.verticalCenter = "middle";
+categoryAxis.title.text = "Hours";
+categoryAxis.title.fontWeight = "bold";
+
+let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.title.text = "HeartRate";
+valueAxis.title.fontWeight = "bold";
+
+// Create series
+var series = chart.series.push(new am4charts.ColumnSeries3D());
+series.dataFields.valueY = "HeartRate";
+series.dataFields.categoryX = "Hour";
+series.name = "HeartRates";
+series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+series.columns.template.fillOpacity = .8;
+series.columns.template.events.on("hit", function(ev) {
+ console.log("clicked on ", ev.target.dataItem.dataContext.Hour);
+}, this);
+
+var columnTemplate = series.columns.template;
+columnTemplate.strokeWidth = 2;
+columnTemplate.strokeOpacity = 1;
+columnTemplate.stroke = am4core.color("#FFFFFF");
+
+columnTemplate.adapter.add("fill", function(fill, target) {
+  return chart.colors.getIndex(target.dataItem.index);
+})
+
+columnTemplate.adapter.add("stroke", function(stroke, target) {
+  return chart.colors.getIndex(target.dataItem.index);
+})
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.lineX.strokeOpacity = 0;
+chart.cursor.lineY.strokeOpacity = 0;
+
+} // end loadHourHeartRateChart
+
+function loadPerMinuteHeartRateChart(data) {
+
+    // Themes begin
+am4core.useTheme(am4themes_animated);
+
+// Create chart instance
+chart = am4core.create("chartdivminuteheartrate", am4charts.XYChart);
+
+// Add data
+chart.data = data;
+
+// Set input format for the dates
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd H:m:S";
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.baseInterval = {
+  "timeUnit": "minute",
+  "count": 1
+};
+dateAxis.renderer.labels.template.location = 0.0001;
+dateAxis.renderer.minGridDistance = 30;
+dateAxis.renderer.labels.template.rotation = 270;
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.valueY = "value";
+series.dataFields.dateX = "time";
+series.tooltipText = "{value}"
+series.strokeWidth = 2;
+series.minBulletDistance = 15;
+
+// Drop-shaped tooltips
+series.tooltip.background.cornerRadius = 20;
+series.tooltip.background.strokeOpacity = 0;
+series.tooltip.pointerOrientation = "vertical";
+series.tooltip.label.minWidth = 40;
+series.tooltip.label.minHeight = 40;
+series.tooltip.label.textAlign = "middle";
+series.tooltip.label.textValign = "middle";
+
+// Make bullets grow on hover
+var bullet = series.bullets.push(new am4charts.CircleBullet());
+bullet.circle.strokeWidth = 2;
+bullet.circle.radius = 4;
+bullet.circle.fill = am4core.color("#fff");
+
+var bullethover = bullet.states.create("hover");
+bullethover.properties.scale = 1.3;
+
+// Make a panning cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "panXY";
+chart.cursor.xAxis = dateAxis;
+chart.cursor.snapToSeries = series;
+
+// Create vertical scrollbar and place it before the value axis
+chart.scrollbarY = new am4core.Scrollbar();
+chart.scrollbarY.parent = chart.leftAxesContainer;
+chart.scrollbarY.toBack();
+
+// Create a horizontal scrollbar with previe and place it underneath the date axis
+chart.scrollbarX = new am4charts.XYChartScrollbar();
+chart.scrollbarX.series.push(series);
+chart.scrollbarX.parent = chart.bottomAxesContainer;
+
+//initial Zoomed in area
+dateAxis.start = 0.79;
+dateAxis.keepSelection = true;
+
+
+} //end loadPerMinuteHeartRateChart
+
+</script>
+
+  {% endblock content %}
