@@ -7,9 +7,14 @@ from dashborad.models import Health, Patient, HourlyHeartRate, WeeklyHealthSumma
 from dashborad.api.serializer import HeartRateSerializer, PatientSerializer, HealthSerializer, HourlyHeartRateSerializer,HealthSummarySerializer
 from dashborad.api.filters import HealthFilter
 
+from django.core import serializers
 from django.utils.dateparse import parse_date
 from django.db.models import Avg, Max, Min, Sum
 from datetime import datetime, date, time, timedelta
+
+from django.http import JsonResponse
+from django.db import connections
+import json
 
 
 @api_view(['GET'])
@@ -19,7 +24,8 @@ def apiOverview(request):
         'PatientsList': 'health-patients/',
         'Health-PatientHeartRatePerMinutePerDay': 'health-PatientHeartRatePerMinutePerDay/<int:pk>/',
         'Health-PatientHeartRatePerHourPerDay': 'health-PatientHeartRatePerHourPerDay/<int:pk>/',
-        'health-Summary':'health-Summary/<int:pk>'
+        'health-Summary':'health-Summary/<int:pk>',
+        'Daily Summary of Health ':'daily-health-summary/',
     }
 
     return Response(api_urls)
@@ -150,20 +156,52 @@ def healthPatientHeartRatePerHourPerDay(request, pk):
 #         serializer=HealthSummarySerializer(weekly_avg_hearrate,many=True)
 #         return Response(serializer.data)
 
+# @api_view(['GET'])
+# def healthSummary(request, pk):
+#     if request.method == 'GET':
+#         strDate = request.query_params.get('strDate', None)
+
+#         date_obj= parse_date(strDate)
+
+
+#         start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
+#         end_of_week = start_of_week + timedelta(days=6)  # Sunday 6
+
+#         weeklyhealthSummary = WeeklyHealthSummary.objects.weeklyHealthSummary_average(pk, start_of_week, end_of_week)
+#         serializer = HealthSummarySerializer(weeklyhealthSummary, many=True)
+#         return Response(serializer.data)
+
 @api_view(['GET'])
 def healthSummary(request, pk):
     if request.method == 'GET':
+        json_data = []
         strDate = request.query_params.get('strDate', None)
+        from django.db import connection
 
         date_obj= parse_date(strDate)
 
+        startdate= date_obj - timedelta(days=date_obj.weekday())  # Monday
+        enddate= start_of_week + timedelta(days=6)  # Sunday 6
+        
+        with connection.cursor() as cursor:
+            cursor.execute(""" SELECT avg(value) HeartRate, AVG(Intensity) Intensity,AVG(SleepValue) AS Sleep 
+            ,Min(value) as MinHeartReate,Max(value) as MaxHearRate
+            FROM `dashborad_health`  where Id=%s and (Time BETWEEN %s AND %s ) """, (pid, startdate, enddate))
+            objs = cursor.fetchall()
+            for obj in objs:
+                json_data.append({"AverageHeartReate" : obj[0], "Average" : obj[1],"Sleep":obj[2],"WalkTime":obj[3],"CaloriesBurnTime":obj[4],"EngeryExpendTime":obj[5],"Activity":obj[6],"WorkoutTime":obj[7],"CaloriesConsumed":obj[8]})
+        return JsonResponse(json_data, safe=False)
 
-        start_of_week = date_obj - timedelta(days=date_obj.weekday())  # Monday
-        end_of_week = start_of_week + timedelta(days=6)  # Sunday 6
-
-        weeklyhealthSummary = WeeklyHealthSummary.objects.weeklyHealthSummary_average(pk, start_of_week, end_of_week)
-        serializer = HealthSummarySerializer(weeklyhealthSummary, many=True)
-        return Response(serializer.data)
+           
 
 
-
+@api_view(['GET'])
+def dailyHealthSummary(request):
+    json_data = []
+    from django.db import connection
+    with connection.cursor() as cursor:
+        cursor.execute("""SELECT DATE(Time) AS date, avg(value) AS AverageHeartRate, DATE_FORMAT(SleepMinute,'%H:%i') as Sleep,DATE_FORMAT(StepsMinute,'%H:%i')  as WalkTime,DATE_FORMAT(CalMinute,'%H:%i')  as CaloriesBurnTime, DATE_FORMAT(MetMinute,'%H:%i')  as EngeryExpendTime,IF(Mets < 3, 'Light Activity', IF(Mets>6,'Vigorous Activity',IF((Mets<=3 and MEts <=6),'Moderate Activity',''))) as Activity,DATE_FORMAT(IntensityTime,'%H:%i') as WorkoutTime,Calories as CaloriesConsumed FROM dashborad_health GROUP BY date order by date asc;""")
+        objs = cursor.fetchall()    
+        for obj in objs:
+            json_data.append({"date" : obj[0], "AverageHeartRate" : obj[1],"Sleep":obj[2],"WalkTime":obj[3],"CaloriesBurnTime":obj[4],"EngeryExpendTime":obj[5],"Activity":obj[6],"WorkoutTime":obj[7],"CaloriesConsumed":obj[8]})
+    return JsonResponse(json_data, safe=False)
