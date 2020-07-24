@@ -11,3 +11,8 @@ class MainPageView(View):
 class ContactPageView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'contact.html')
+
+class ActivitesPageView(View):
+    def get(self, request, *args, **kwargs):
+        patients = Patient.objects.all()
+        return render(request, 'activities.html', {'patients': patients})

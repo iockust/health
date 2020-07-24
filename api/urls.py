@@ -1,5 +1,5 @@
 from .views import (apiOverview, healthList, healthPatients, healthPatientHeartRatePerMinutePerDay,
-                                 healthPatientHeartRatePerHourPerDay,weeklyHealthSummary,dailyHealthSummary)
+                                 healthPatientHeartRatePerHourPerDay,weeklyHealthSummary,healthPatientActivities,healthPatientActivitiesDate)
 
 from django.urls import path
 
@@ -10,6 +10,7 @@ urlpatterns = [
     path('health-PatientHeartRatePerMinutePerDay/<int:pk>/', healthPatientHeartRatePerMinutePerDay, name='health-PatientHeartRatePerMinutePerDay'),
     path('health-PatientHeartRatePerHourPerDay/<int:pk>/', healthPatientHeartRatePerHourPerDay, name='health-PatientHeartRatePerHourPerDay'),
     path('weekly-health-Summary/<int:pk>/',weeklyHealthSummary, name='health-summary'),
-    path('daily-health-summary/',dailyHealthSummary,name='daily-health-summary'),
-    
+    path('health-patient-activites/<int:pk>/',healthPatientActivities,name='health-patient-activities'),
+    path('health-patient-activites-date/<int:pk>/',healthPatientActivitiesDate,name='health-patient-activities-date')
+
 ]

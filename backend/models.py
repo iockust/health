@@ -15,9 +15,6 @@ class Patient(models.Model):
         db_table = 'patient'
 
 class Health(models.Model):
-    # patientid = models.IntegerField(primary_key=True,blank=False, null=False)
-    # patientid=models.AutoField(primary_key=True) # this is a primary key, not the patientId
-    # id = models.BigIntegerField(db_column='Id', blank=True, null=True)  # This is patientId column.
     time = models.DateTimeField(db_column='Time', blank=True, null=True)  # Field name made lowercase.
     value = models.IntegerField(db_column='Value', blank=True, null=True)  # Field name made lowercase.
     intensitytime = models.DateTimeField(db_column='IntensityTime', blank=True, null=True)  # Field name made lowercase.
@@ -31,6 +28,11 @@ class Health(models.Model):
     mets = models.IntegerField(db_column='METs', blank=True, null=True)  # Field name made lowercase.
     calminute = models.DateTimeField(db_column='CalMinute', blank=True, null=True)  # Field name made lowercase.
     calories = models.FloatField(db_column='Calories', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'dashborad_health'
+
 
 
 class HourlyHeartRateManager(models.Manager):

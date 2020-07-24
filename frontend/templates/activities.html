@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Styles -->
+<style>
+	#activites {
+	  width: 100%;
+	  height: 500px;
+	}
+	
+	</style>
+	
+	<!-- Chart code -->
+	<script>
+
+
+function getDate(){
+var patient_id = document.getElementById("patient_id").value;
+console.log(patient_id)
+var dropdown = document.getElementById('date-dropdown');
+dropdown.length = 0;
+
+var defaultOption = document.createElement('option');
+defaultOption.text = 'Select Date';
+dropdown.add(defaultOption);
+dropdown.selectedIndex = 0;
+var endpoint='/api/v1/health-patient-activites-date/'+patient_id;
+$.ajax({
+	method:"GET",
+	url:endpoint,
+	success:function(date){
+		console.log(date)
+	   var  option;
+       for (let i = 0; i < date.length; i++) {
+        option = document.createElement('option');
+        option.text = date[i].time;
+        option.value = date[i].time;
+        dropdown.add(option);
+    }
+   }
+,
+	error:function(error_data){
+		console.log("error")
+		console.log(error_data)
+	}
+
+});
+}
+
+
+
+
+
+function getData(){
+var patient_id = document.getElementById("patient_id").value;
+var qrydate = document.getElementById('date-dropdown').value;
+var endpoint='/api/v1/health-patient-activites/'+patient_id+'/?strDate='+qrydate;
+$.ajax({
+	method:"GET",
+	url:endpoint,
+	success:function(data){
+		console.log(data);
+		loadChartData(data);
+	},
+	error:function(error_data){
+		console.log("error")
+		console.log(error_data)
+	}
+
+});
+}
+
+
+function loadDate(date){
+
+newdate=date.toISOString().substring(0, 10);
+return newdate;
+
+}
+function loadChartData(data){
+
+	am4core.ready(function() {
+	
+	// Themes begin
+	am4core.useTheme(am4themes_animated);
+	// Themes end
+	
+	
+	
+	// Create chart instance
+	var chart = am4core.create("activites", am4charts.RadarChart);
+	// console.log(data)
+	// dataString=JSON.stringify(data)
+	// console.log(data.date)
+	// var json = JSON.parse(data);
+	// alert(json["date"])
+      console.log([0].Activity)
+
+	// Add data
+	// chart.data = [{
+	//   "category": "Research",
+	//   "value": 80,
+	//   "full": 100
+	// }, {
+	//   "category": "Marketing",
+	//   "value": 35,
+	//   "full": 100
+	// }, {
+	//   "category": "Distribution",
+	//   "value": 92,
+	//   "full": 100
+	// }, {
+	//   "category": "Human Resources",
+	//   "value": 68,
+	//   "full": 100
+	// }];
+	
+	chart.data=data
+	// Make chart not full circle
+	chart.startAngle = -90;
+	chart.endAngle = 180;
+	chart.innerRadius = am4core.percent(20);
+	
+	// Set number format
+	chart.numberFormatter.numberFormat = "#.#'%'";
+	
+	// Create axes
+	var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+	categoryAxis.dataFields.category = "category";
+	categoryAxis.renderer.grid.template.location = 0;
+	categoryAxis.renderer.grid.template.strokeOpacity = 0;
+	categoryAxis.renderer.labels.template.horizontalCenter = "right";
+	categoryAxis.renderer.labels.template.fontWeight = 500;
+	categoryAxis.renderer.labels.template.adapter.add("fill", function(fill, target) {
+	  return (target.dataItem.index >= 0) ? chart.colors.getIndex(target.dataItem.index) : fill;
+	});
+	categoryAxis.renderer.minGridDistance = 10;
+	
+	var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+	valueAxis.renderer.grid.template.strokeOpacity = 0;
+	valueAxis.min = 0;
+	valueAxis.max = 100;
+	valueAxis.strictMinMax = true;
+	
+	// Create series
+	var series1 = chart.series.push(new am4charts.RadarColumnSeries());
+	series1.dataFields.valueX = "full";
+	series1.dataFields.categoryY = "category";
+	series1.clustered = false;
+	series1.columns.template.fill = new am4core.InterfaceColorSet().getFor("alternativeBackground");
+	series1.columns.template.fillOpacity = 0.08;
+	series1.columns.template.cornerRadiusTopLeft = 20;
+	series1.columns.template.strokeWidth = 0;
+	series1.columns.template.radarColumn.cornerRadius = 20;
+	
+	var series2 = chart.series.push(new am4charts.RadarColumnSeries());
+	series2.dataFields.valueX = "value";
+	series2.dataFields.categoryY = "category";
+	series2.clustered = false;
+	series2.columns.template.strokeWidth = 0;
+	series2.columns.template.tooltipText = "{category}: [bold]{value}[/]";
+	series2.columns.template.radarColumn.cornerRadius = 20;
+	
+	series2.columns.template.adapter.add("fill", function(fill, target) {
+	  return chart.colors.getIndex(target.dataItem.index);
+	});
+	
+	// Add cursor
+	chart.cursor = new am4charts.RadarCursor();
+	
+	}); // end am4core.ready()
+
+}
+
+
+
+	</script>
+
+
+	
+	<br>
+	<br>
+	<br>
+
+
+
+	
+	<!-- HTML -->
+	
+	<div class="title_right">
+		<div class="col-md-10 col-sm-10 col-xs-12 form-group pull-right top_search">
+		  <div class="input-group">
+
+			  <select name="patient_id" id="patient_id"  class="form-control">
+			  {% for entry in patients %}
+				  <option value="{{ entry.id }}" ">{{ entry.name }}</option>
+			  {% endfor %}
+			  </select>
+			  <select id="date-dropdown" name="date" onclick="getDate()">
+
+			  </select>
+
+			<span class="input-group-btn">
+			  <button class="btn btn-default" type="button"  onclick="getData();" >Go!</button>
+			</span>
+		  </div>
+		</div>
+	  </div>
+
+	<div id="activites"></div>
+
+{% endblock content %}

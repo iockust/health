@@ -26,3 +26,14 @@ class HourlyHeartRateSerializer(serializers.ModelSerializer):
         fields = '__all__'
         model = HourlyHeartRate
         fields = ['Hour', 'HeartRate']
+
+class PatientTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Health
+        fields=['time']
+
+class WeeklyHealthSummarySerializer(serializers.ModelSerializer):
+    averagesleep=serializers.ReadOnlyField()
+    class Meta:
+        model=Health
+        fields=['averagesleep']

@@ -198,13 +198,13 @@ function getWeeklySummaryData(){
 
 function loadWeeklySummaryCards(data) {
       {#p = self.model(AverageHeartRate=row[0], AverageIntensity=row[1],#}
-      {#                         AverageSleep=row[2], MinHeartRate=row[3], MaxHeartRate=row[4])#}
-document.getElementById("minHeartRate").innerHTML=data[0].MinHeartRate;
-document.getElementById("maxHeartRate").innerHTML=data[0].MaxHeartRate;
-document.getElementById("avgHeartRate").innerHTML=data[0].AverageHeartRate;
+      {# AverageSleep=row[2], MinHeartRate=row[3], MaxHeartRate=row[4])#}
+document.getElementById("minHeartRate").innerHTML=data.value__min;
+document.getElementById("maxHeartRate").innerHTML=data.value__max;
+document.getElementById("avgHeartRate").innerHTML=data.value__avg;
 
-document.getElementById("avgSleep").innerHTML=data[0].AverageSleep;
-document.getElementById("avgIntensity").innerHTML=data[0].AverageIntensity;
+document.getElementById("avgSleep").innerHTML=data.AverageSleep;
+document.getElementById("avgIntensity").innerHTML=data.AverageIntensity;
 }
 
 function getPerMinuteHeartRateData(){
