@@ -174,11 +174,21 @@ def healthPatientActivities(request, pk):
 @api_view(['GET'])
 def healthPatientActivitiesDate(request, pk):
     if request.method == 'GET':
-        data=Health.objects.values('time').filter(id=pk)      
-        print(data)
-        serializer = PatientTimeSerializer(data,many=True)
+        json_data=[]
+        data=Health.objects.values('time').filter(id=pk)     
+        q="SELECT distinct DATE_FORMAT(Time, '%Y %m %d') as Date FROM iockustc_health.dashborad_health where id='{}'".format(pk)
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute(q) 
+            objs=cursor.fetchall()
+            for obj in objs:
+                json_data.append({"Date":obj[0]})
+        print(json_data)
+        # print(data)
+        # serializer = PatientTimeSerializer(data,many=True)
   
-        return JsonResponse(serializer.data,safe=False)
+        # return JsonResponse(serializer.data,safe=False)
+        return JsonResponse(json_data,safe=False)
 
 # SELECT DATE(Time) AS date,
 #  avg(value) AS AverageHeartRate,

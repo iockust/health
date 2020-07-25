@@ -14,5 +14,6 @@ class ContactPageView(View):
 
 class ActivitesPageView(View):
     def get(self, request, *args, **kwargs):
+        # id=self.request.query_params.get('id')
         patients = Patient.objects.all()
         return render(request, 'activities.html', {'patients': patients})

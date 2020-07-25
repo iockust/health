@@ -16,14 +16,11 @@
 
 function getDate(){
 var patient_id = document.getElementById("patient_id").value;
-console.log(patient_id)
 var dropdown = document.getElementById('date-dropdown');
 dropdown.length = 0;
-
-var defaultOption = document.createElement('option');
-defaultOption.text = 'Select Date';
-dropdown.add(defaultOption);
+var defaultOption=document.getElementById('option')
 dropdown.selectedIndex = 0;
+
 var endpoint='/api/v1/health-patient-activites-date/'+patient_id;
 $.ajax({
 	method:"GET",
@@ -33,8 +30,8 @@ $.ajax({
 	   var  option;
        for (let i = 0; i < date.length; i++) {
         option = document.createElement('option');
-        option.text = date[i].time;
-        option.value = date[i].time;
+        option.text =date[i].Date;
+        option.value = date[i].Date;
         dropdown.add(option);
     }
    }
@@ -54,12 +51,13 @@ $.ajax({
 function getData(){
 var patient_id = document.getElementById("patient_id").value;
 var qrydate = document.getElementById('date-dropdown').value;
+date=qrydate.split(" ")
+qrydate=date[0]+'-'+date[1]+'-'+date[2]
 var endpoint='/api/v1/health-patient-activites/'+patient_id+'/?strDate='+qrydate;
 $.ajax({
 	method:"GET",
 	url:endpoint,
 	success:function(data){
-		console.log(data);
 		loadChartData(data);
 	},
 	error:function(error_data){
@@ -197,11 +195,11 @@ function loadChartData(data){
 			  {% endfor %}
 			  </select>
 			  <select id="date-dropdown" name="date" onclick="getDate()">
-
+				<option id="option" value="">Select Date</option>
 			  </select>
 
 			<span class="input-group-btn">
-			  <button class="btn btn-default" type="button"  onclick="getData();" >Go!</button>
+			  <button class="btn btn-default" type="button" onclick="getData()">Go!</button>
 			</span>
 		  </div>
 		</div>
