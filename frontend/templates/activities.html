@@ -26,7 +26,6 @@ $.ajax({
 	method:"GET",
 	url:endpoint,
 	success:function(date){
-		console.log(date)
 	   var  option;
        for (let i = 0; i < date.length; i++) {
         option = document.createElement('option');
@@ -43,8 +42,6 @@ $.ajax({
 
 });
 }
-
-
 
 
 
@@ -68,13 +65,6 @@ $.ajax({
 });
 }
 
-
-function loadDate(date){
-
-newdate=date.toISOString().substring(0, 10);
-return newdate;
-
-}
 function loadChartData(data){
 
 	am4core.ready(function() {
@@ -87,33 +77,39 @@ function loadChartData(data){
 	
 	// Create chart instance
 	var chart = am4core.create("activites", am4charts.RadarChart);
-	// console.log(data)
-	// dataString=JSON.stringify(data)
-	// console.log(data.date)
-	// var json = JSON.parse(data);
-	// alert(json["date"])
-      console.log([0].Activity)
+	console.log(data)
+	console.log(data[0].date)
 
 	// Add data
-	// chart.data = [{
-	//   "category": "Research",
-	//   "value": 80,
-	//   "full": 100
-	// }, {
-	//   "category": "Marketing",
-	//   "value": 35,
-	//   "full": 100
-	// }, {
-	//   "category": "Distribution",
-	//   "value": 92,
-	//   "full": 100
-	// }, {
-	//   "category": "Human Resources",
-	//   "value": 68,
-	//   "full": 100
-	// }];
+	chart.data = [{
+	  "category": "CaloriesBurnTime",
+	  "value": (data[0].CaloriesBurnTime/1440)*100,
+	  "full": 100
+	}, {
+	  "category": "CaloriesConsumed",
+	  "value": (data[0].CaloriesConsume/1440)*100,
+	  "full": 100
+	}, {
+	  "category": "EngeryExpendTime",
+	  "value": (data[0].EngeryExpendTime/1440)*100,
+	  "full": 100
+	}, {
+	  "category": "WalkTime",
+	  "value": (data[0].WalkTime/1440)*100,
+	  "full": 100
+	}, {
+	  "category": "WorkoutTime",
+	  "value": (data[0].WorkoutTime/1440)*100,
+	  "full": 100
+	}
+	, {
+	  "category": "Sleep",
+	  "value": (data[0].Sleep/1440)*100,
+	  "full": 100
+	}
+	];
 	
-	chart.data=data
+	// chart.data=data
 	// Make chart not full circle
 	chart.startAngle = -90;
 	chart.endAngle = 180;

@@ -161,14 +161,13 @@ def healthPatientActivities(request, pk):
         strDate = request.query_params.get('strDate', None)
         startDate = parse_date(strDate)
         endDate = startDate + timedelta(days=1)
-        query="SELECT id as PatientId ,DATE(Time) AS date,avg(value) AS AverageHeartRate,DATE_FORMAT(SleepMinute,'%H:%i') as Sleep,DATE_FORMAT(StepsMinute,'%H:%i')  as WalkTime,DATE_FORMAT(CalMinute,'%H:%i')  as CaloriesBurnTime,DATE_FORMAT(MetMinute,'%H:%i')  as EngeryExpendTime,IF(Mets < 3, 'Light Activity', IF(Mets>6,'Vigorous Activity',IF((Mets<=3 and MEts <=6),'Moderate Activity',''))) as Activity,DATE_FORMAT(IntensityTime,'%H:%i') as WorkoutTime,Calories as CaloriesConsumed FROM dashborad_health where id={} and Time>= '{}' and Time< '{}' GROUP BY date order by date asc".format(pk,startDate,endDate)
-
+        query="SELECT id as PatientId ,DATE(Time) AS date,avg(value) AS AverageHeartRate,minute(SleepMinute) as Sleep,minute(StepsMinute)  as WalkTime,minute(CalMinute)  as CaloriesBurnTime,minute(MetMinute) as EngeryExpendTime,IF(Mets < 3, '25', IF(Mets>6,'70',IF((Mets<=3 and MEts <=6),'45',''))) as Activity,minute(IntensityTime) as WorkoutTime,Calories as CaloriesConsumed FROM dashborad_health where id={} and Time>= '{}' and Time< '{}' GROUP BY date order by date asc".format(pk,startDate,endDate)
         from django.db import connection
         with connection.cursor() as cursor:
             cursor.execute(query)
             objs = cursor.fetchall()    
             for obj in objs:
-                json_data.append({"date" : obj[0], "AverageHeartRate" : obj[1],"Sleep":obj[2],"WalkTime":obj[3],"CaloriesBurnTime":obj[4],"EngeryExpendTime":obj[5],"Activity":obj[6],"WorkoutTime":obj[7],"CaloriesConsumed":obj[8]})
+                json_data.append({"id" : obj[0],"date":obj[1], "AverageHeartRate" : obj[2],"Sleep":obj[3],"WalkTime":obj[4],"CaloriesBurnTime":obj[5],"EngeryExpendTime":obj[6],"Activity":obj[7],"WorkoutTime":obj[8],"CaloriesConsumed":obj[9]})
         return JsonResponse(json_data, safe=False)
 
 @api_view(['GET'])
